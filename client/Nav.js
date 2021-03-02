@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -6,7 +6,9 @@ import HomeScreen from "./src/screens/HomeScreen";
 import EnterMealScreen from "./src/screens/EnterMealScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 
-const App = () => {
+// COMPONENT UNDER DEVELOPMENT
+
+const Nav = () => {
   const Tab = createBottomTabNavigator();
 
   return (
@@ -22,6 +24,7 @@ const App = () => {
             } else {
               icon = focused ? "person" : "person-outline";
             }
+
             return <Ionicons name={icon} size={size} color={color} />;
           },
         })}
@@ -38,4 +41,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Nav;
