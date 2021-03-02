@@ -1,7 +1,11 @@
-Project description
-===================
+# Diabetes Mobile App
 
-Created by Gustavo Quinonez and James Newton
---------------------------------------------
-
+### Project description
 In this project, we have decided to use an MVC-style architecture and file structure. As a result of this decision, the code that we write will be arranged into separate folders.
+
+### Tech Stack
+- JavaScript
+- React Native
+- Expo CLI
+
+#### Created by Gustavo Zapata and James Newton
