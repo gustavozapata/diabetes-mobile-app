@@ -1,39 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import HomeScreen from "./src/screens/HomeScreen";
-import EnterMealScreen from "./src/screens/EnterMealScreen";
-import ProfileScreen from "./src/screens/ProfileScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import Nav from "./Nav";
+import StartScreen from "./src/screens/StartScreen";
 
 const App = () => {
-  const Tab = createBottomTabNavigator();
+  const Stack = createStackNavigator();
 
+  // This structure allows the app to have some views under the navigation bar and others outside the navigation
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let icon;
-            if (route.name === "Home") {
-              icon = focused ? "home" : "home-outline";
-            } else if (route.name === "Meal") {
-              icon = focused ? "fast-food" : "fast-food-outline";
-            } else {
-              icon = focused ? "person" : "person-outline";
-            }
-            return <Ionicons name={icon} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: "#05666C",
-          inactiveTintColor: "gray",
-        }}
+      <Stack.Navigator
+        initialRouteName="Start"
+        screenOptions={{ headerShown: false }}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Meal" component={EnterMealScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-      </Tab.Navigator>
+        <Stack.Screen name="Home" component={Nav} />
+        <Stack.Screen name="Start" component={StartScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
