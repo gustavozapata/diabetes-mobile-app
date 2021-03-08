@@ -9,18 +9,37 @@ import {
 import AppContext from "../context/AppContext";
 
 const Signup = () => {
-  const { toggleLoginForm } = useContext(AppContext);
+  const {
+    state: { email, password, serverMsg },
+    toggleLoginForm,
+    handleEmail,
+    handlePassword,
+    signup,
+  } = useContext(AppContext);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Signup</Text>
       <Text style={styles.label}>Email</Text>
-      <TextInput style={styles.input} />
+      <TextInput
+        style={styles.input}
+        value={email}
+        onChangeText={(value) => handleEmail(value)}
+      />
       <Text style={styles.label}>Password</Text>
-      <TextInput style={styles.input} secureTextEntry={true} />
-      <TouchableHighlight style={styles.button}>
+      <TextInput
+        style={styles.input}
+        secureTextEntry={true}
+        value={password}
+        onChangeText={(value) => handlePassword(value)}
+      />
+      <TouchableHighlight
+        style={styles.button}
+        onPress={() => signup(email, password)}
+      >
         <Text style={styles.buttonLabel}>Signup</Text>
       </TouchableHighlight>
+      <Text style={styles.serverMsg}>{serverMsg}</Text>
       <Text style={styles.switchForm} onPress={() => toggleLoginForm(true)}>
         Already have an account? <Text style={styles.action}>Login</Text>
       </Text>
@@ -73,6 +92,11 @@ const styles = StyleSheet.create({
     color: "#05666C",
     fontWeight: "500",
     textDecorationLine: "underline",
+  },
+  serverMsg: {
+    marginTop: 10,
+    color: "red",
+    textAlign: "center",
   },
 });
 

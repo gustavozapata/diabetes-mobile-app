@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
-  SafeAreaView,
   Image,
   ScrollView,
   KeyboardAvoidingView,
@@ -11,10 +10,21 @@ import Login from "../components/Login";
 import Signup from "../components/Signup";
 import AppContext from "../context/AppContext";
 
-const StartScreen = () => {
+const StartScreen = ({ navigation }) => {
   const {
-    state: { isLoginForm },
+    state: { isLoginForm, isLogged, isGuest },
+    enterAsGuest,
   } = useContext(AppContext);
+
+  useEffect(() => {
+    if (isLogged || isGuest) {
+      navigation.navigate("Home");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
+    }
+  }, [isLogged, isGuest]);
 
   return (
     <KeyboardAvoidingView
@@ -24,22 +34,25 @@ const StartScreen = () => {
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
+          marginTop: 50,
           alignItems: "center",
           backgroundColor: "#fff",
         }}
       >
-        <SafeAreaView style={styles.container}>
-          <Text style={styles.title}>
-            Diabet<Text style={{ color: "#8DD8DD" }}>less</Text>
-          </Text>
-          <Image source={require("../../assets/start.png")} />
-          <Text style={styles.description}>
-            Control the food that you eat and the insulin that you take
-          </Text>
-          {isLoginForm ? <Login /> : <Signup />}
-          <Text style={styles.guest}>Continue as a guest</Text>
-          <Text style={styles.developed}>Developed by TeamApp3 at KU</Text>
-        </SafeAreaView>
+        {/* <SafeAreaView style={styles.container}> */}
+        <Text style={styles.title}>
+          Diabet<Text style={{ color: "#8DD8DD" }}>less</Text>
+        </Text>
+        <Image source={require("../../assets/start.png")} />
+        <Text style={styles.description}>
+          Control the food that you eat and the insulin that you take
+        </Text>
+        {isLoginForm ? <Login /> : <Signup />}
+        <Text style={styles.guest} onPress={enterAsGuest}>
+          Continue as a guest
+        </Text>
+        <Text style={styles.developed}>Developed by TeamApp3 at KU</Text>
+        {/* </SafeAreaView> */}
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -48,6 +61,7 @@ const StartScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    // marginTop: 50,
     backgroundColor: "#fff",
   },
   container: {
@@ -72,6 +86,7 @@ const styles = StyleSheet.create({
   guest: {
     color: "#05666C",
     fontWeight: "600",
+    padding: 20,
   },
   developed: {
     color: "gray",

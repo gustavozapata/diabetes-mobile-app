@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const measurementRouter = require("./routes/measurementRoutes");
+const userRouter = require("./routes/userRoutes");
 
 const app = express();
 
@@ -10,6 +10,6 @@ app.use(cors());
 //to access body of request
 app.use(express.json());
 
-app.use("/api/measurements", measurementRouter);
+app.use("/api/users", userRouter);
 
 module.exports = app;
