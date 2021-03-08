@@ -8,21 +8,21 @@ import {
 } from "react-native";
 import AppContext from "../context/AppContext";
 
-const Login = () => {
+const Signup = () => {
   const { toggleLoginForm } = useContext(AppContext);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Signup</Text>
       <Text style={styles.label}>Email</Text>
       <TextInput style={styles.input} />
       <Text style={styles.label}>Password</Text>
       <TextInput style={styles.input} secureTextEntry={true} />
       <TouchableHighlight style={styles.button}>
-        <Text style={styles.buttonLabel}>Login</Text>
+        <Text style={styles.buttonLabel}>Signup</Text>
       </TouchableHighlight>
-      <Text style={styles.switchForm} onPress={() => toggleLoginForm(false)}>
-        Don't have an account? <Text style={styles.action}>Sign up</Text>
+      <Text style={styles.switchForm} onPress={() => toggleLoginForm(true)}>
+        Already have an account? <Text style={styles.action}>Login</Text>
       </Text>
     </View>
   );
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Signup;
