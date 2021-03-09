@@ -4,3 +4,6 @@ export const TOGGLE_LOGIN_FORM = "TOGGLE_LOGIN_FORM";
 export const LOGIN = "LOGIN";
 export const ENTER_GUEST = "ENTER_GUEST";
 export const SERVER_MSG = "SERVER_MSG";
+export const SEARCH_FOOD = "SEARCH_FOOD";
+export const HANDLE_SEARCH_FOOD = "HANDLE_SEARCH_FOOD";
+export const LOADING = "LOADING";

@@ -6,6 +6,9 @@ import {
   HANDLE_EMAIL,
   HANDLE_PASSWORD,
   ENTER_GUEST,
+  HANDLE_SEARCH_FOOD,
+  SEARCH_FOOD,
+  LOADING,
 } from "../helpers/types";
 import axios from "axios";
 import { host } from "../config/local";
@@ -27,10 +30,27 @@ const diaryReducer = (state, action) => {
         ...state,
         password: action.payload,
       };
+    case HANDLE_SEARCH_FOOD:
+      return {
+        ...state,
+        searchFoodTerm: action.payload,
+      };
+    case LOADING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case SEARCH_FOOD:
+      return {
+        ...state,
+        foodNutrients: action.payload,
+        isLoading: false,
+      };
     case TOGGLE_LOGIN_FORM:
       return {
         ...state,
         isLoginForm: action.payload,
+        serverMsg: "",
       };
     case LOGIN:
       return {
@@ -62,6 +82,19 @@ const initialState = {
   isLogged: false,
   isGuest: false,
   serverMsg: "",
+  searchFoodTerm: "",
+  foodResults: [],
+  foodNutrients: {
+    image: "https://vybz.gustavozapata.me/food.png",
+    nutrients: {
+      ENERC_KCAL: 0,
+      PROCNT: 0,
+      FAT: 0,
+      CHOCDF: 0,
+      FIBTG: 0,
+    },
+  },
+  isLoading: false,
 };
 
 //This Provider wraps the whole app and passes down all the state of the app and the 'actions'  or functions that call the reducers
@@ -81,6 +114,31 @@ export const AppProvider = ({ children }) => {
       type: HANDLE_PASSWORD,
       payload: value,
     });
+  };
+
+  const handleSearchFood = (value) => {
+    dispatch({
+      type: HANDLE_SEARCH_FOOD,
+      payload: value,
+    });
+  };
+
+  const searchFood = (searchFoodTerm) => {
+    dispatch({
+      type: LOADING,
+    });
+    axios
+      .get(
+        `https://api.edamam.com/api/food-database/parser?app_id=07d50733&app_key=80fcb49b500737827a9a23f7049653b9&ingr=${searchFoodTerm}`
+      )
+      .then((res) => {
+        console.log(res.data.parsed[0].food);
+        dispatch({
+          type: SEARCH_FOOD,
+          payload: res.data.parsed[0].food,
+        });
+      })
+      .catch((err) => console.log(err));
   };
 
   const toggleLoginForm = (value) => {
@@ -137,6 +195,8 @@ export const AppProvider = ({ children }) => {
         state,
         handleEmail,
         handlePassword,
+        handleSearchFood,
+        searchFood,
         toggleLoginForm,
         login,
         signup,

@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   switchForm: {
-    paddingVertical: 20,
+    paddingVertical: 10,
     fontSize: 14,
   },
   action: {
@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
   serverMsg: {
-    marginTop: 10,
     color: "red",
+    marginTop: 10,
     textAlign: "center",
   },
 });
