@@ -1,10 +1,16 @@
 import React, { useContext } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableHighlight,
+} from "react-native";
 import AppContext from "../context/AppContext";
 
 const FoodResults = () => {
   const {
-    state: { foodResults, foodNutrients, isLoading },
+    state: { foodResults, foodNutrients, isLoading, notFound },
   } = useContext(AppContext);
 
   return (
@@ -19,14 +25,34 @@ const FoodResults = () => {
           style={{ width: 130, height: 130 }}
         />
       ) : (
-        <View>
-          <Image style={styles.image} source={{ uri: foodNutrients.image }} />
-          <Text>ENERC_KCAL: {foodNutrients.nutrients.ENERC_KCAL}</Text>
-          <Text>PROCNT: {foodNutrients.nutrients.PROCNT}</Text>
-          <Text>FAT: {foodNutrients.nutrients.FAT}</Text>
-          <Text>CHOCDF: {foodNutrients.nutrients.CHOCDF}</Text>
-          <Text>FIBTG: {foodNutrients.nutrients.FIBTG}</Text>
-        </View>
+        [
+          notFound ? (
+            <View key="1" style={{ alignItems: "center" }}>
+              <Image
+                source={require("../../assets/notfound.png")}
+                style={{ width: 160, height: 160 }}
+              />
+              <Text>Sorry, we couldn't find that one</Text>
+              <Text>You can enter the item manually</Text>
+            </View>
+          ) : (
+            <View key="2">
+              <Image
+                style={styles.image}
+                source={{ uri: foodNutrients.image }}
+              />
+              <Text>Energy: {foodNutrients.nutrients.ENERC_KCAL} kcal</Text>
+              <Text>Protein: {foodNutrients.nutrients.PROCNT} g</Text>
+              <Text>Fat: {foodNutrients.nutrients.FAT} g</Text>
+              <Text>Carbs: {foodNutrients.nutrients.CHOCDF} g</Text>
+              <Text>Fiber: {foodNutrients.nutrients.FIBTG} g</Text>
+
+              <TouchableHighlight style={styles.button}>
+                <Text style={styles.buttonLabel}>Enter result</Text>
+              </TouchableHighlight>
+            </View>
+          ),
+        ]
       )}
     </View>
   );
@@ -44,11 +70,25 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   image: {
-    width: 150,
-    height: 150,
+    width: 190,
+    height: 190,
     borderWidth: 2,
     borderColor: "#05666C",
     marginBottom: 15,
+  },
+  button: {
+    marginTop: 20,
+    borderRadius: 25,
+    // width: 200,
+  },
+  buttonLabel: {
+    color: "#fff",
+    textAlign: "center",
+    backgroundColor: "#05666C",
+    borderRadius: 5,
+    padding: 10,
+    fontSize: 15,
+    fontWeight: "500",
   },
 });
 

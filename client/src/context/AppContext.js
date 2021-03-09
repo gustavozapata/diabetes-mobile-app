@@ -9,6 +9,9 @@ import {
   HANDLE_SEARCH_FOOD,
   SEARCH_FOOD,
   LOADING,
+  NO_FOOD_RESULTS,
+  HANDLE_FOOD_ITEM,
+  TOGGLE_FOOD_FORM,
 } from "../helpers/types";
 import axios from "axios";
 import { host } from "../config/local";
@@ -35,16 +38,42 @@ const diaryReducer = (state, action) => {
         ...state,
         searchFoodTerm: action.payload,
       };
+    case HANDLE_FOOD_ITEM:
+      return {
+        ...state,
+        foodItem: action.payload,
+      };
     case LOADING:
       return {
         ...state,
         isLoading: true,
+        showResults: true,
       };
     case SEARCH_FOOD:
       return {
         ...state,
-        foodNutrients: action.payload,
+        foodNutrients: {
+          ...action.payload,
+          //if not image is found, display the default meal image
+          image: `${
+            action.payload.image
+              ? action.payload.image
+              : "https://vybz.gustavozapata.me/food.png"
+          }`,
+        },
         isLoading: false,
+        notFound: false,
+      };
+    case NO_FOOD_RESULTS:
+      return {
+        ...state,
+        notFound: true,
+        isLoading: false,
+      };
+    case TOGGLE_FOOD_FORM:
+      return {
+        ...state,
+        showFoodForm: !state.showFoodForm,
       };
     case TOGGLE_LOGIN_FORM:
       return {
@@ -95,6 +124,17 @@ const initialState = {
     },
   },
   isLoading: false,
+  notFound: false,
+  showResults: false,
+  showFoodForm: false,
+  foodItem: {
+    Name: "",
+    Calories: "",
+    Carbs: "",
+    Fat: "",
+    Protein: "",
+    Fibre: "",
+  },
 };
 
 //This Provider wraps the whole app and passes down all the state of the app and the 'actions'  or functions that call the reducers
@@ -116,10 +156,23 @@ export const AppProvider = ({ children }) => {
     });
   };
 
+  const handleFoodItem = (value) => {
+    dispatch({
+      type: HANDLE_FOOD_ITEM,
+      payload: value,
+    });
+  };
+
   const handleSearchFood = (value) => {
     dispatch({
       type: HANDLE_SEARCH_FOOD,
       payload: value,
+    });
+  };
+
+  const toggleShowForm = () => {
+    dispatch({
+      type: TOGGLE_FOOD_FORM,
     });
   };
 
@@ -132,11 +185,17 @@ export const AppProvider = ({ children }) => {
         `https://api.edamam.com/api/food-database/parser?app_id=07d50733&app_key=80fcb49b500737827a9a23f7049653b9&ingr=${searchFoodTerm}`
       )
       .then((res) => {
-        console.log(res.data.parsed[0].food);
-        dispatch({
-          type: SEARCH_FOOD,
-          payload: res.data.parsed[0].food,
-        });
+        console.log(res.data.parsed);
+        if (res.data.parsed[0]) {
+          dispatch({
+            type: SEARCH_FOOD,
+            payload: res.data.parsed[0].food,
+          });
+        } else {
+          dispatch({
+            type: NO_FOOD_RESULTS,
+          });
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -196,8 +255,10 @@ export const AppProvider = ({ children }) => {
         handleEmail,
         handlePassword,
         handleSearchFood,
+        handleFoodItem,
         searchFood,
         toggleLoginForm,
+        toggleShowForm,
         login,
         signup,
         enterAsGuest,

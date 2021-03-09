@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import {
   ScrollView,
@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import SearchBar from "../components/SearchBar";
 import FoodResults from "../components/FoodResults";
+import AppContext from "../context/AppContext";
+import FoodForm from "../components/FoodForm";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const EnterMealScreen = () => {
   const Stack = createStackNavigator();
@@ -21,6 +24,11 @@ const EnterMealScreen = () => {
 };
 
 const MainScreen = () => {
+  const {
+    state: { showResults, showFoodForm },
+    toggleShowForm,
+  } = useContext(AppContext);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -42,7 +50,21 @@ const MainScreen = () => {
         </View>
         <View style={{ marginTop: 20 }}>
           <SearchBar />
-          <FoodResults />
+          {showResults ? (
+            <FoodResults />
+          ) : (
+            <Text style={styles.description}>
+              Type in the item you want to get information for
+            </Text>
+          )}
+          <View
+            style={{
+              borderBottomColor: "#ccc",
+              borderBottomWidth: 1,
+              marginVertical: 30,
+            }}
+          ></View>
+          <FoodForm />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -59,6 +81,14 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "600",
     marginBottom: 6,
+    color: "#05666C",
+  },
+  description: {
+    fontSize: 18,
+    marginVertical: 20,
+    fontWeight: "500",
+    textAlign: "center",
+    color: "gray",
   },
 });
 

@@ -71,17 +71,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
-    fontSize: 33,
+    fontSize: 30,
     fontWeight: "700",
     color: "#05666C",
   },
   description: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "500",
     textAlign: "center",
     padding: 10,
     color: "#575757",
-    lineHeight: 28,
+    lineHeight: 25,
   },
   guest: {
     color: "#05666C",

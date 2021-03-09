@@ -6,4 +6,7 @@ export const ENTER_GUEST = "ENTER_GUEST";
 export const SERVER_MSG = "SERVER_MSG";
 export const SEARCH_FOOD = "SEARCH_FOOD";
 export const HANDLE_SEARCH_FOOD = "HANDLE_SEARCH_FOOD";
+export const NO_FOOD_RESULTS = "NO_FOOD_RESULTS";
 export const LOADING = "LOADING";
+export const HANDLE_FOOD_ITEM = "HANDLE_FOOD_ITEM";
+export const TOGGLE_FOOD_FORM = "TOGGLE_FOOD_FORM";
