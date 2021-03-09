@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import HomeScreen from "./src/screens/HomeScreen";
 import EnterMealScreen from "./src/screens/EnterMealScreen";
-import ProfileScreen from "./src/screens/ProfileScreen";
+import InsulinScreen from "./src/screens/InsulinScreen";
 
 const Nav = () => {
   const Tab = createBottomTabNavigator();
@@ -31,7 +31,7 @@ const Nav = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Meal" component={EnterMealScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Insulin" component={InsulinScreen} />
     </Tab.Navigator>
   );
 };
