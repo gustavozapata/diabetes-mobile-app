@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text, Button, TextInput } from "react-native";
 
-import { InsulinEnterComponent } from "../components/InsulinEnterComponent";
-import { InsulinDeleteComponent } from "../components/InsulinDeleteComponent";
+import InsulinEnterComponent from "../components/InsulinEnterComponent";
+import InsulinDeleteComponent from "../components/InsulinDeleteComponent";
 
 const Stack = createStackNavigator();
 
@@ -11,10 +11,6 @@ const InsulinScreen = () => {
   useEffect(() =>{
 
   });
-  for (let i = 0; i < day.length; i++) {
-    const element = array[i];
-    
-  }
 
   return (
       <Stack.Navigator initialRouteName="Insulin">

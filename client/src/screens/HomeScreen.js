@@ -2,18 +2,18 @@ import React from "react";
 import { View, Text, StatusBar, Button } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { ProfileComponent } from "../components/ProfileComponent";
-import { EditProfileComponent } from "../components/ProfileEditComponent";
-import {ExportComponent} from "../components/ExportComponent";
+import ProfileComponent from "../components/ProfileComponent";
+import ProfileEditComponent from "../components/ProfileEditComponent";
+import ExportComponent from "../components/ExportComponent";
+
+const Stack = createStackNavigator();
 
 const HomeScreen = () => {
-  const Stack = createStackNavigator();
-
   return (
       <Stack.Navigator>
         <Stack.Screen name="Home" component={MainScreen} />
         <Stack.Screen name="Profile" component={ProfileComponent} />
-        <Stack.Screen name="EditProfile" component={EditProfileComponent} />
+        <Stack.Screen name="EditProfile" component={ProfileEditComponent} />
         <Stack.Screen name="Export" component={ExportComponent} />
       </Stack.Navigator>
   );
