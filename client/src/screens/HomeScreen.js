@@ -1,27 +1,25 @@
 import React from "react";
 import { View, Text, StatusBar, Button } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from '@react-navigation/native';
 
 import { ProfileComponent } from "../components/ProfileComponent";
 import { EditProfileComponent } from "../components/ProfileEditComponent";
+import {ExportComponent} from "../components/ExportComponent";
 
 const HomeScreen = () => {
   const Stack = createStackNavigator();
 
   return (
-    <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={MainScreen} />
         <Stack.Screen name="Profile" component={ProfileComponent} />
         <Stack.Screen name="EditProfile" component={EditProfileComponent} />
         <Stack.Screen name="Export" component={ExportComponent} />
       </Stack.Navigator>
-    </NavigationContainer>
   );
 };
 
-const MainScreen = ({ props }) => {
+const MainScreen = () => {
   return (
     <View>
       <StatusBar style="auto" />
