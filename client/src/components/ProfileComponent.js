@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
+  Button,
   StyleSheet,
   TextInput,
   TouchableHighlight,
 } from "react-native";
-import AppContext from "../context/AppContext";
 
 const ProfileComponent = ({navigation, route}) => {
   const [email, setEmail] = useState("");

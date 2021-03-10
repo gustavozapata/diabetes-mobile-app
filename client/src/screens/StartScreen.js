@@ -10,6 +10,8 @@ import Login from "../components/Login";
 import Signup from "../components/Signup";
 import AppContext from "../context/AppContext";
 
+import styles from "../styles";
+
 const StartScreen = ({ navigation }) => {
   const {
     state: { isLoginForm, isLogged, isGuest },
@@ -48,16 +50,17 @@ const StartScreen = ({ navigation }) => {
           Control the food that you eat and the insulin that you take
         </Text>
         {isLoginForm ? <Login /> : <Signup />}
-        <Text style={styles.guest} onPress={enterAsGuest}>
+        <Text style={styles.green} onPress={enterAsGuest}>
           Continue as a guest
         </Text>
+        <Text>{"\n\n\n"}</Text>
         <Text style={styles.developed}>Developed by TeamApp3 at KU</Text>
         {/* </SafeAreaView> */}
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
-
+/*
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
@@ -91,6 +94,6 @@ const styles = StyleSheet.create({
   developed: {
     color: "gray",
   },
-});
+});*/
 
 export default StartScreen;

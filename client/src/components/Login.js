@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import AppContext from "../context/AppContext";
 
+import styles from "../styles";
+
 const Login = () => {
   const {
     state: { email, password, serverMsg },
@@ -19,17 +21,17 @@ const Login = () => {
   } = useContext(AppContext);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.startScreenWrapper}>
       <Text style={styles.title}>Login</Text>
       <Text style={styles.label}>Email</Text>
       <TextInput
-        style={styles.input}
+        style={styles.inputBig}
         value={email}
         onChangeText={(value) => handleEmail(value)}
       />
       <Text style={styles.label}>Password</Text>
       <TextInput
-        style={styles.input}
+        style={styles.inputBig}
         secureTextEntry={true}
         value={password}
         onChangeText={(value) => handlePassword(value)}
@@ -50,59 +52,5 @@ const Login = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    borderWidth: 1,
-    borderColor: "#dedede",
-    elevation: 5,
-    padding: 14,
-  },
-  title: {
-    fontSize: 25,
-    fontWeight: "600",
-    color: "#05666C",
-    paddingBottom: 10,
-  },
-  input: {
-    padding: 8,
-    width: 300,
-    fontSize: 18,
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#aaa",
-  },
-  label: {
-    color: "#05666C",
-    fontSize: 14,
-    paddingTop: 12,
-    fontWeight: "600",
-  },
-  button: {
-    marginTop: 20,
-    zIndex: 100,
-  },
-  buttonLabel: {
-    color: "#fff",
-    textAlign: "center",
-    backgroundColor: "#05666C",
-    borderRadius: 5,
-    padding: 10,
-  },
-  switchForm: {
-    paddingVertical: 10,
-    fontSize: 14,
-  },
-  action: {
-    color: "#05666C",
-    fontWeight: "500",
-    textDecorationLine: "underline",
-  },
-  serverMsg: {
-    color: "red",
-    marginTop: 10,
-    textAlign: "center",
-  },
-});
 
 export default Login;

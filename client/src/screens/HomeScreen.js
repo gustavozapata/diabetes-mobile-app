@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ProfileComponent from "../components/ProfileComponent";
 import ProfileEditComponent from "../components/ProfileEditComponent";
 import ExportComponent from "../components/ExportComponent";
+import styles from "../styles";
 
 const Stack = createStackNavigator();
 
@@ -19,38 +20,35 @@ const HomeScreen = () => {
   );
 };
 
-const MainScreen = () => {
+const MainScreen = ({navigation}) => {
   return (
     <View>
       <StatusBar style="auto" />
-      <Text>Dashboard</Text>
+      <Text style={styles.title}>Dashboard</Text>
       <View>
-        <Text>Daily Average</Text>
+        <Text style={styles.label}>Daily Average</Text>
       </View>
       <View>
-        <Text>Calories</Text>
+        <Text style={styles.label}>Calories</Text>
         <Text></Text>
       </View>
       <View>
-        <Text>Carbohydrates</Text>
+        <Text style={styles.label}>Carbohydrates</Text>
         <Text></Text>
       </View>
       <View>
-        <Text>Protein</Text>
+        <Text style={styles.label}>Protein</Text>
         <Text></Text>
       </View>
       <View>
-        <Text>Fat</Text>
+        <Text style={styles.label}>Fat</Text>
         <Text></Text>
       </View>
       <View>
-        <Text>Insulin usage</Text>
+        <Text style={styles.label}>Insulin usage</Text>
       </View>
-      <View>
-        <Text>Edit profile</Text>
-      </View>
-      <Button title="Profile" />
-      <Button title="Save Export" />
+      <Button style={styles.button} title="Profile" onPress={() => {navigation.navigate("Profile")}} />
+      <Button style={styles.button} title="Save Export" onPress={() => {navigation.navigate("Export")}}/>
     </View>
   );
 };

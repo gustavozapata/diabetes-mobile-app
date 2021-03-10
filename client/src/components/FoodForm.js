@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import AppContext from "../context/AppContext";
 
+import styles from "../styles";
+
 const FoodForm = () => {
   const {
     state: { foodItem },
@@ -52,44 +54,10 @@ const FoodForm = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    // borderWidth: 1,
-    borderColor: "#eee",
-    borderRadius: 20,
-    padding: 10,
-  },
-  label: {
-    color: "#05666C",
-    fontSize: 14,
-    paddingTop: 12,
-    fontWeight: "600",
-  },
-  input: {
-    padding: 8,
-    width: 80,
-    fontSize: 18,
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#aaa",
-  },
-  foodInput: {
-    width: 280,
-  },
-  button: {
-    marginTop: 20,
-    borderRadius: 25,
-    // width: 200,
-  },
-  buttonLabel: {
-    color: "#fff",
-    textAlign: "center",
-    backgroundColor: "#05666C",
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 15,
-    fontWeight: "500",
-  },
-});
+//button
+//buttonlabel
+//foodInput
+//input
+//container
 
 export default FoodForm;

@@ -8,13 +8,15 @@ import {
 } from "react-native";
 import AppContext from "../context/AppContext";
 
+import styles from "../styles";
+
 const FoodResults = () => {
   const {
     state: { foodResults, foodNutrients, isLoading, notFound },
   } = useContext(AppContext);
 
   return (
-    <View style={styles.container}>
+    <View style={styles2.container}>
       <Text style={styles.title}>Results</Text>
       {/* <View>
         {foodResults > 0 && foodResults.map((item) => <Text>{item}</Text>)}
@@ -38,7 +40,7 @@ const FoodResults = () => {
           ) : (
             <View key="2">
               <Image
-                style={styles.image}
+                style={styles2.image}
                 source={{ uri: foodNutrients.image }}
               />
               <Text>Energy: {foodNutrients.nutrients.ENERC_KCAL} kcal</Text>
@@ -58,16 +60,10 @@ const FoodResults = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles2 = StyleSheet.create({
   container: {
     alignItems: "center",
     margin: 15,
-  },
-  title: {
-    fontSize: 24,
-    color: "#05666C",
-    fontWeight: "600",
-    marginBottom: 15,
   },
   image: {
     width: 190,
@@ -76,20 +72,9 @@ const styles = StyleSheet.create({
     borderColor: "#05666C",
     marginBottom: 15,
   },
-  button: {
-    marginTop: 20,
-    borderRadius: 25,
-    // width: 200,
-  },
-  buttonLabel: {
-    color: "#fff",
-    textAlign: "center",
-    backgroundColor: "#05666C",
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 15,
-    fontWeight: "500",
-  },
 });
 
 export default FoodResults;
+
+//buttonlabel
+//

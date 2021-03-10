@@ -13,6 +13,8 @@ import AppContext from "../context/AppContext";
 import FoodForm from "../components/FoodForm";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
+import styles from "../styles";
+
 const EnterMealScreen = () => {
   const Stack = createStackNavigator();
 
@@ -71,25 +73,7 @@ const MainScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 25,
-    fontWeight: "600",
-    marginBottom: 6,
-    color: "#05666C",
-  },
-  description: {
-    fontSize: 18,
-    marginVertical: 20,
-    fontWeight: "500",
-    textAlign: "center",
-    color: "gray",
-  },
-});
+//wrapper
+//description
 
 export default EnterMealScreen;

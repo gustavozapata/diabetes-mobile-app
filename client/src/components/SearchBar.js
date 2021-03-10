@@ -3,6 +3,8 @@ import { StyleSheet, TextInput, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AppContext from "../context/AppContext";
 
+import styles from "../styles";
+
 //this component is found on the Library screen
 //it renders a Text Input where users will be able to search for a book
 const SearchBar = () => {
@@ -37,20 +39,5 @@ const SearchBar = () => {
 
 export default SearchBar;
 
-const styles = StyleSheet.create({
-  searchBar: {
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 20,
-    paddingLeft: 10,
-    marginVertical: 12,
-    width: "90%",
-    height: 38,
-  },
-  inputSearch: {
-    width: "100%",
-    marginLeft: 6,
-    fontSize: 17,
-  },
-});
+//searchBar
+//inputsearch
