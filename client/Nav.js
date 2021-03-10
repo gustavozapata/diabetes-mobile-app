@@ -18,7 +18,7 @@ const Nav = () => {
           } else if (route.name === "Meal") {
             icon = focused ? "fast-food" : "fast-food-outline";
           } else {
-            icon = focused ? "person" : "person-outline";
+            icon = focused ? "medkit" : "medkit-outline";
           }
 
           return <Ionicons name={icon} size={size} color={color} />;
