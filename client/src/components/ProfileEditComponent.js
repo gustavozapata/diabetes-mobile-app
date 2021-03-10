@@ -46,7 +46,7 @@ const ProfileEditComponent = () => {
         navigation.navigate("Profile");
       }} />
       <Button title="Complete editing" onPress={() => {
-        navigation.navigate("Profile", {
+        navigation.goBack("Profile", {
           params: {
             _email: email,
             _password: password,

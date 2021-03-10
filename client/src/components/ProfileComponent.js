@@ -9,7 +9,7 @@ import {
 import AppContext from "../context/AppContext";
 
 const ProfileComponent = ({navigation, route}) => {
-    const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -26,7 +26,6 @@ const ProfileComponent = ({navigation, route}) => {
       //do HTTP stuff if contents has changed
     }
   }, [route.params]);
-
   
   return (
     <View>
