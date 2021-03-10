@@ -1,6 +1,6 @@
 export class Insulin{
-    constructor(insulinID, amount, type){
-        this.InsulinID = insulinID;
+    constructor(datetime, amount, type){
+        this.Datetime = datetime;
         this.Amount = amount;
         this.Type = type;
     }

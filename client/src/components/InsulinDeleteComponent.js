@@ -28,8 +28,9 @@ const InsulinDeleteComponent = ({navigation, route}) => {
       </View>
       <Button title="Don't delete" onPress={() => { navigation.goBack(); }}/>
       <Button title="Delete" onPress={() => {
-        
-        navigation.goBack(); 
+        let d = route.params.day;
+        d.removeInsulin(route.params.i);
+        navigation.navigate("Insulin",{day:d});
         }}/>
     </View>
   );
