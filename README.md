@@ -15,3 +15,8 @@ In this project, we have decided to use an MVC-style architecture and file struc
 - React Navigation
 
 #### Created by Gustavo Zapata and James Newton
+
+## NOTES BETWEEN DEVS
+
+ * INSULIN PAGE IS CURRENTLY BROKEN, SO UNLESS YOU'RE GOING TO FIX IT, DON'T TOUCH IT
+ * ALL STYLES HAVE BEEN GROUPED INTO STYLES.JS IN THE SRC FOLDER

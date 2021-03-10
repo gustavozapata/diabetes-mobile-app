@@ -13,7 +13,7 @@ const Nav = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let icon;
-          if (route.name === "Home") {
+          if (route.name === "Dashboard") {
             icon = focused ? "home" : "home-outline";
           } else if (route.name === "Meal") {
             icon = focused ? "fast-food" : "fast-food-outline";
@@ -29,7 +29,7 @@ const Nav = () => {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Dashboard" component={HomeScreen} />
       <Tab.Screen name="Meal" component={EnterMealScreen} />
       <Tab.Screen name="Insulin" component={InsulinScreen} />
     </Tab.Navigator>
