@@ -15,16 +15,17 @@ const InsulinEnterComponent = ({navigation, route}) => {
       <Text>Enter Insulin</Text>
       <View>
         <Text>Time</Text>
-        <TextInput />
+        <TextInput onChangeText={() => {}}/>
       </View>
       <View>
         <Text>Insulin Type</Text>
-        <TextInput />
+        <TextInput onChangeText={() => {}}/>
       </View>
       <View>
         <Text>Dosage (Amount)</Text>
-        <TextInput />
+        <TextInput onChangeText={() => {}}/>
       </View>
+      <Button></Button>
     </View>
   );
 }
