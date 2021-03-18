@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import {
   TOGGLE_LOGIN_FORM,
   LOGIN,
+  LOGOUT,
   SERVER_MSG,
   HANDLE_EMAIL,
   HANDLE_PASSWORD,
@@ -99,12 +100,20 @@ const diaryReducer = (state, action) => {
         ...state,
         isLogged: action.payload.isLogged,
         isGuest: false,
+        email: "",
+        password: "",
         serverMsg: "",
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        isLogged: false,
+        isGuest: false,
       };
     case ENTER_GUEST:
       return {
         ...state,
-        isGuest: true,
+        isGuest: action.payload,
       };
     case SUCCESS_ENTER_MEAL:
       return {
@@ -257,6 +266,14 @@ export const AppProvider = ({ children }) => {
   const enterAsGuest = () => {
     dispatch({
       type: ENTER_GUEST,
+      payload: true,
+    });
+  };
+
+  const goBackToStart = () => {
+    dispatch({
+      type: ENTER_GUEST,
+      payload: false,
     });
   };
 
@@ -275,6 +292,12 @@ export const AppProvider = ({ children }) => {
           payload: "An error has occured",
         });
       });
+  };
+
+  const logout = () => {
+    dispatch({
+      type: LOGOUT,
+    });
   };
 
   const signup = (email, password) => {
@@ -328,7 +351,9 @@ export const AppProvider = ({ children }) => {
         showEnterNewItem,
         login,
         signup,
+        logout,
         enterAsGuest,
+        goBackToStart,
         enterMeal,
       }}
     >

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StatusBar, Button } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -6,21 +6,28 @@ import ProfileComponent from "../components/ProfileComponent";
 import ProfileEditComponent from "../components/ProfileEditComponent";
 import ExportComponent from "../components/ExportComponent";
 import styles from "../styles";
+import AppContext from "../context/AppContext";
 
 const Stack = createStackNavigator();
 
 const HomeScreen = () => {
   return (
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={MainScreen} />
-        <Stack.Screen name="Profile" component={ProfileComponent} />
-        <Stack.Screen name="EditProfile" component={ProfileEditComponent} />
-        <Stack.Screen name="Export" component={ExportComponent} />
-      </Stack.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={MainScreen} />
+      <Stack.Screen name="Profile" component={ProfileComponent} />
+      <Stack.Screen name="EditProfile" component={ProfileEditComponent} />
+      <Stack.Screen name="Export" component={ExportComponent} />
+    </Stack.Navigator>
   );
 };
 
-const MainScreen = ({navigation}) => {
+const MainScreen = ({ navigation }) => {
+  const { logout } = useContext(AppContext);
+
+  const logoff = () => {
+    logout();
+    navigation.navigate("Start");
+  };
   return (
     <View>
       <StatusBar style="auto" />
@@ -47,8 +54,21 @@ const MainScreen = ({navigation}) => {
       <View>
         <Text style={styles.label}>Insulin usage</Text>
       </View>
-      <Button style={styles.button} title="Profile" onPress={() => {navigation.navigate("Profile")}} />
-      <Button style={styles.button} title="Save Export" onPress={() => {navigation.navigate("Export")}}/>
+      <Button
+        style={styles.button}
+        title="Profile"
+        onPress={() => {
+          navigation.navigate("Profile");
+        }}
+      />
+      <Button
+        style={styles.button}
+        title="Save Export"
+        onPress={() => {
+          navigation.navigate("Export");
+        }}
+      />
+      <Text onPress={() => logoff()}>Log out</Text>
     </View>
   );
 };

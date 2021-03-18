@@ -16,8 +16,10 @@ const App = () => {
           initialRouteName="Start"
           screenOptions={{ headerShown: false }}
         >
-          <Stack.Screen name="Home" component={Nav} />
-          <Stack.Screen name="Start" component={StartScreen} />
+          <Stack.Screen name="Nav" component={Nav} />
+          <Stack.Screen name="Start">
+            {(props) => <StartScreen {...props} access={false} />}
+          </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>

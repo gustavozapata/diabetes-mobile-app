@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
+  View,
   Image,
   ScrollView,
   KeyboardAvoidingView,
@@ -13,21 +14,27 @@ import AppContext from "../context/AppContext";
 
 import styles from "../styles";
 
-const StartScreen = ({ navigation }) => {
+const StartScreen = ({ navigation, access }) => {
   const {
     state: { isLoginForm, isLogged, isGuest },
     enterAsGuest,
+    goBackToStart,
   } = useContext(AppContext);
 
   useEffect(() => {
-    if (isLogged || isGuest) {
-      navigation.navigate("Home");
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "Home" }],
-      });
+    if (access) {
+      goBackToStart();
+      navigation.navigate("Start");
+    } else {
+      if (isLogged || isGuest) {
+        navigation.navigate("Nav");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Nav" }],
+        });
+      }
     }
-  }, [isLogged, isGuest]);
+  }, [isLogged, isGuest, access]);
 
   return (
     <KeyboardAvoidingView
@@ -35,6 +42,7 @@ const StartScreen = ({ navigation }) => {
       style={styles.wrapper}
     >
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           flexGrow: 1,
           marginTop: 50,
@@ -43,7 +51,7 @@ const StartScreen = ({ navigation }) => {
         }}
       >
         {/* <SafeAreaView style={styles.container}> */}
-        <Text style={styles.title}>
+        <Text style={innerStyles.title}>
           Diabet<Text style={{ color: "#8DD8DD" }}>less</Text>
         </Text>
         <Image source={require("../../assets/start.png")} />
@@ -54,47 +62,24 @@ const StartScreen = ({ navigation }) => {
         <Text style={styles.green} onPress={enterAsGuest}>
           Continue as a guest
         </Text>
-        <Text>{"\n\n\n"}</Text>
-        <Text style={styles.developed}>Developed by TeamApp3 at KU</Text>
+        <Text style={innerStyles.developed}>Developed by TeamApp3 at KU</Text>
+        <View style={{ height: 120 }}></View>
         {/* </SafeAreaView> */}
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
-/*
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    // marginTop: 50,
-    backgroundColor: "#fff",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
+
+const innerStyles = StyleSheet.create({
   title: {
     fontSize: 30,
-    fontWeight: "700",
-    color: "#05666C",
-  },
-  description: {
-    fontSize: 16,
-    fontWeight: "500",
-    textAlign: "center",
-    padding: 10,
-    color: "#575757",
-    lineHeight: 25,
-  },
-  guest: {
     color: "#05666C",
     fontWeight: "600",
-    padding: 20,
+    marginBottom: 15,
   },
   developed: {
-    color: "gray",
+    marginTop: 0,
   },
-});*/
+});
 
 export default StartScreen;
