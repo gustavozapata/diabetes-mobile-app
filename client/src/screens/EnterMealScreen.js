@@ -15,6 +15,7 @@ import FoodForm from "../components/FoodForm";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import styles from "../styles";
+import EnterNewItem from "../components/EnterNewItem";
 
 const EnterMealScreen = () => {
   const Stack = createStackNavigator();
@@ -28,8 +29,7 @@ const EnterMealScreen = () => {
 
 const MainScreen = () => {
   const {
-    state: { showResults, showFoodForm, isGuest },
-    toggleShowForm,
+    state: { showResults, isGuest, hasJustEnteredMeal },
   } = useContext(AppContext);
 
   return (
@@ -38,36 +38,40 @@ const MainScreen = () => {
       style={styles.wrapper}
     >
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           flexGrow: 1,
           alignItems: "center",
           backgroundColor: "#fff",
         }}
       >
-        <View>
+        <View style={{ width: "100%" }}>
           <Text style={styles.title}>Enter Meal</Text>
-          <Text>
-            Use the search bar to find the food item or use the form to enter
-            one manually
-          </Text>
+          <Text>Use the search bar to find the food item</Text>
         </View>
         <View style={{ marginTop: 20 }}>
           <SearchBar />
-          {showResults ? (
-            <FoodResults />
+          {hasJustEnteredMeal ? (
+            <EnterNewItem />
           ) : (
-            <Text style={styles.description}>
-              Type in the item you want to get information for
-            </Text>
+            <View>
+              {showResults ? (
+                <FoodResults />
+              ) : (
+                <Text style={styles.description}>
+                  Type in the item you want to get information for
+                </Text>
+              )}
+              <View
+                style={{
+                  borderBottomColor: "#ccc",
+                  borderBottomWidth: 1,
+                  marginVertical: 30,
+                }}
+              ></View>
+              {!isGuest && <FoodForm />}
+            </View>
           )}
-          <View
-            style={{
-              borderBottomColor: "#ccc",
-              borderBottomWidth: 1,
-              marginVertical: 30,
-            }}
-          ></View>
-          {!isGuest && <FoodForm />}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

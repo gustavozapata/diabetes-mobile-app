@@ -20,9 +20,6 @@ const FoodResults = () => {
   return (
     <View style={styles2.container}>
       <Text style={styles.title}>Results</Text>
-      {/* <View>
-        {foodResults > 0 && foodResults.map((item) => <Text>{item}</Text>)}
-      </View> */}
       {isLoading ? (
         <Image
           source={require("../../assets/loading.gif")}
@@ -46,29 +43,24 @@ const FoodResults = () => {
                 source={{ uri: foodNutrients.image }}
               />
               <InfoBar
-                title="Energy"
-                value={foodNutrients.nutrients.ENERC_KCAL}
-                measure="kcal"
+                title="Calories"
+                value={foodNutrients.nutrients.ENERC_KCAL + " kcal"}
               />
               <InfoBar
                 title="Protein"
-                value={foodNutrients.nutrients.PROCNT}
-                measure="gram"
+                value={foodNutrients.nutrients.PROCNT + " gram"}
               />
               <InfoBar
                 title="Fat"
-                value={foodNutrients.nutrients.FAT}
-                measure="gram"
+                value={foodNutrients.nutrients.FAT + " gram"}
               />
               <InfoBar
                 title="Carbs"
-                value={foodNutrients.nutrients.CHOCDF}
-                measure="gram"
+                value={foodNutrients.nutrients.CHOCDF + " gram"}
               />
               <InfoBar
                 title="Fibre"
-                value={foodNutrients.nutrients.FIBTG}
-                measure="gram"
+                value={foodNutrients.nutrients.FIBTG + " gram"}
               />
 
               {!isGuest && (
@@ -78,11 +70,11 @@ const FoodResults = () => {
                     enterMeal({
                       meal: searchFoodTerm,
                       nutrients: {
-                        energy: foodNutrients.nutrients.ENERC_KCAL,
-                        protein: foodNutrients.nutrients.PROCNT,
-                        fat: foodNutrients.nutrients.FAT,
-                        carbs: foodNutrients.nutrients.CHOCDF,
-                        fibre: foodNutrients.nutrients.FIBTG,
+                        calories: foodNutrients.nutrients.ENERC_KCAL + " kcal",
+                        protein: foodNutrients.nutrients.PROCNT + " gram",
+                        fat: foodNutrients.nutrients.FAT + " gram",
+                        carbs: foodNutrients.nutrients.CHOCDF + " gram",
+                        fibre: foodNutrients.nutrients.FIBTG + " gram",
                       },
                     })
                   }

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableHighlight,
+  TouchableOpacity,
 } from "react-native";
 import AppContext from "../context/AppContext";
 
@@ -20,12 +21,6 @@ const FoodForm = () => {
   return (
     <View style={styles.container}>
       <View>
-        {/* <Text style={styles.label}>Food name</Text>
-        <TextInput
-          style={[styles.input, styles.foodInput]}
-          value={foodItem.name}
-          onChangeText={(value) => handleFoodItem(value)}
-        /> */}
         <Text style={{ textAlign: "center" }}>Enter Food manually</Text>
         <View
           style={{
@@ -38,6 +33,7 @@ const FoodForm = () => {
             <View key={i} style={{ margin: 10 }}>
               <Text style={styles.label}>{item}</Text>
               <TextInput
+                keyboardType={item === "Name" ? "default" : "numeric"}
                 style={[
                   styles.input,
                   item === "Name" ? styles.foodInput : styles.input,
@@ -48,23 +44,25 @@ const FoodForm = () => {
             </View>
           ))}
         </View>
-        <TouchableHighlight
+        <TouchableOpacity
           style={styles.button}
           onPress={() => {
             enterMeal({
               meal: foodItem.Name,
               nutrients: {
-                energy: parseFloat(foodItem.Calories),
-                protein: parseFloat(foodItem.Protein),
-                fat: parseFloat(foodItem.Fat),
-                carbs: parseFloat(foodItem.Carbs),
-                fibre: parseFloat(foodItem.Fibre),
+                calories: foodItem.Calories + " kcal",
+                protein: foodItem.Protein + " gram",
+                fat: foodItem.Fat + " gram",
+                carbs: foodItem.Carbs + " gram",
+                fibre: foodItem.Fibre + " gram",
               },
             });
           }}
         >
-          <Text style={styles.buttonLabel}>Enter manually</Text>
-        </TouchableHighlight>
+          <Text style={[styles.buttonLabel, { marginBottom: 100 }]}>
+            Enter manually
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

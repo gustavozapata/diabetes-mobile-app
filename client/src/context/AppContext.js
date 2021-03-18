@@ -9,14 +9,14 @@ import {
   HANDLE_SEARCH_FOOD,
   SEARCH_FOOD,
   LOADING,
-  ENTER_MEAL,
+  SUCCESS_ENTER_MEAL,
+  NEW_ENTER_MEAL,
   NO_FOOD_RESULTS,
   HANDLE_FOOD_ITEM,
   TOGGLE_FOOD_FORM,
 } from "../helpers/types";
 import axios from "axios";
 import { host } from "../config/local";
-// import AsyncStorage from "@react-native-community/async-storage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //Key used by AsyncStorage
@@ -45,7 +45,6 @@ const diaryReducer = (state, action) => {
         searchFoodTerm: action.payload,
       };
     case HANDLE_FOOD_ITEM:
-      console.log(action.payload);
       return {
         ...state,
         foodItem: {
@@ -107,6 +106,34 @@ const diaryReducer = (state, action) => {
         ...state,
         isGuest: true,
       };
+    case SUCCESS_ENTER_MEAL:
+      return {
+        ...state,
+        hasJustEnteredMeal: true,
+        foodItem: {
+          Name: action.payload.meal,
+          Calories: action.payload.nutrients.calories,
+          Carbs: action.payload.nutrients.carbs,
+          Fat: action.payload.nutrients.fat,
+          Protein: action.payload.nutrients.protein,
+          Fibre: action.payload.nutrients.fibre,
+        },
+      };
+    case NEW_ENTER_MEAL:
+      return {
+        ...state,
+        hasJustEnteredMeal: false,
+        searchFoodTerm: "",
+        showResults: false,
+        foodItem: {
+          Name: "",
+          Calories: "",
+          Carbs: "",
+          Fat: "",
+          Protein: "",
+          Fibre: "",
+        },
+      };
     case SERVER_MSG:
       return {
         ...state,
@@ -141,6 +168,7 @@ const initialState = {
   notFound: false,
   showResults: false,
   showFoodForm: false,
+  hasJustEnteredMeal: false,
   foodItem: {
     Name: "",
     Calories: "",
@@ -190,6 +218,12 @@ export const AppProvider = ({ children }) => {
     });
   };
 
+  const showEnterNewItem = () => {
+    dispatch({
+      type: NEW_ENTER_MEAL,
+    });
+  };
+
   const searchFood = (searchFoodTerm) => {
     dispatch({
       type: LOADING,
@@ -199,7 +233,6 @@ export const AppProvider = ({ children }) => {
         `https://api.edamam.com/api/food-database/parser?app_id=07d50733&app_key=80fcb49b500737827a9a23f7049653b9&ingr=${searchFoodTerm}`
       )
       .then((res) => {
-        console.log(res.data.parsed);
         if (res.data.parsed[0]) {
           dispatch({
             type: SEARCH_FOOD,
@@ -235,7 +268,6 @@ export const AppProvider = ({ children }) => {
           type: LOGIN,
           payload: { isLogged: res.data.isLogged, _id: res.data.data._id },
         });
-        console.log(res.data);
       })
       .catch((err) => {
         dispatch({
@@ -265,13 +297,12 @@ export const AppProvider = ({ children }) => {
   const enterMeal = async (meal) => {
     let storage = await AsyncStorage.getItem(STORAGE_KEY);
     storage = JSON.parse(storage);
-
     axios
       .post(`${host}/api/meals/${storage._id}`, { meal })
-      .then((res) => {
+      .then(() => {
         dispatch({
-          type: ENTER_MEAL,
-          payload: "success",
+          type: SUCCESS_ENTER_MEAL,
+          payload: meal,
         });
       })
       .catch((err) => {
@@ -294,6 +325,7 @@ export const AppProvider = ({ children }) => {
         searchFood,
         toggleLoginForm,
         toggleShowForm,
+        showEnterNewItem,
         login,
         signup,
         enterAsGuest,
