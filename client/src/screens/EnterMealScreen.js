@@ -6,6 +6,7 @@ import {
   View,
   StyleSheet,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import SearchBar from "../components/SearchBar";
 import FoodResults from "../components/FoodResults";
@@ -27,7 +28,7 @@ const EnterMealScreen = () => {
 
 const MainScreen = () => {
   const {
-    state: { showResults, showFoodForm },
+    state: { showResults, showFoodForm, isGuest },
     toggleShowForm,
   } = useContext(AppContext);
 
@@ -66,7 +67,7 @@ const MainScreen = () => {
               marginVertical: 30,
             }}
           ></View>
-          <FoodForm />
+          {!isGuest && <FoodForm />}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

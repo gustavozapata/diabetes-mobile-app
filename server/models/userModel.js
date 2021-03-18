@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const MealSchema = require("../models/mealModel");
+const InsulinSchema = require("../models/mealModel");
 const bcrypt = require("bcryptjs");
 
 const UserSchema = mongoose.Schema({
@@ -15,6 +17,8 @@ const UserSchema = mongoose.Schema({
     minlength: 3, //password length must be minumum 5 character
     select: false, //do not send this field when select user
   },
+  meals: [MealSchema],
+  insulin: [InsulinSchema],
 });
 
 //pre 'save' runs before saving (create, post) into the db

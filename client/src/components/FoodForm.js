@@ -14,6 +14,7 @@ const FoodForm = () => {
   const {
     state: { foodItem },
     handleFoodItem,
+    enterMeal,
   } = useContext(AppContext);
 
   return (
@@ -32,6 +33,7 @@ const FoodForm = () => {
             flexWrap: "wrap",
           }}
         >
+          {/* ITERATE THROUGH ALL ITEMS OF FOODITEM OBJECT */}
           {Object.keys(foodItem).map((item, i) => (
             <View key={i} style={{ margin: 10 }}>
               <Text style={styles.label}>{item}</Text>
@@ -41,12 +43,26 @@ const FoodForm = () => {
                   item === "Name" ? styles.foodInput : styles.input,
                 ]}
                 value={foodItem[item]}
-                onChangeText={(value) => handleFoodItem(value)}
+                onChangeText={(value) => handleFoodItem(value, item)}
               />
             </View>
           ))}
         </View>
-        <TouchableHighlight style={styles.button}>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => {
+            enterMeal({
+              meal: foodItem.Name,
+              nutrients: {
+                energy: parseFloat(foodItem.Calories),
+                protein: parseFloat(foodItem.Protein),
+                fat: parseFloat(foodItem.Fat),
+                carbs: parseFloat(foodItem.Carbs),
+                fibre: parseFloat(foodItem.Fibre),
+              },
+            });
+          }}
+        >
           <Text style={styles.buttonLabel}>Enter manually</Text>
         </TouchableHighlight>
       </View>

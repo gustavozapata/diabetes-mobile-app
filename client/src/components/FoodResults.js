@@ -9,10 +9,12 @@ import {
 import AppContext from "../context/AppContext";
 
 import styles from "../styles";
+import InfoBar from "./InfoBar";
 
 const FoodResults = () => {
   const {
-    state: { foodResults, foodNutrients, isLoading, notFound },
+    state: { foodNutrients, isLoading, notFound, searchFoodTerm, isGuest },
+    enterMeal,
   } = useContext(AppContext);
 
   return (
@@ -38,20 +40,56 @@ const FoodResults = () => {
               <Text>You can enter the item manually</Text>
             </View>
           ) : (
-            <View key="2">
+            <View key="2" style={styles2.resultContainer}>
               <Image
                 style={styles2.image}
                 source={{ uri: foodNutrients.image }}
               />
-              <Text>Energy: {foodNutrients.nutrients.ENERC_KCAL} kcal</Text>
-              <Text>Protein: {foodNutrients.nutrients.PROCNT} g</Text>
-              <Text>Fat: {foodNutrients.nutrients.FAT} g</Text>
-              <Text>Carbs: {foodNutrients.nutrients.CHOCDF} g</Text>
-              <Text>Fiber: {foodNutrients.nutrients.FIBTG} g</Text>
+              <InfoBar
+                title="Energy"
+                value={foodNutrients.nutrients.ENERC_KCAL}
+                measure="kcal"
+              />
+              <InfoBar
+                title="Protein"
+                value={foodNutrients.nutrients.PROCNT}
+                measure="gram"
+              />
+              <InfoBar
+                title="Fat"
+                value={foodNutrients.nutrients.FAT}
+                measure="gram"
+              />
+              <InfoBar
+                title="Carbs"
+                value={foodNutrients.nutrients.CHOCDF}
+                measure="gram"
+              />
+              <InfoBar
+                title="Fibre"
+                value={foodNutrients.nutrients.FIBTG}
+                measure="gram"
+              />
 
-              <TouchableHighlight style={styles.button}>
-                <Text style={styles.buttonLabel}>Enter result</Text>
-              </TouchableHighlight>
+              {!isGuest && (
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() =>
+                    enterMeal({
+                      meal: searchFoodTerm,
+                      nutrients: {
+                        energy: foodNutrients.nutrients.ENERC_KCAL,
+                        protein: foodNutrients.nutrients.PROCNT,
+                        fat: foodNutrients.nutrients.FAT,
+                        carbs: foodNutrients.nutrients.CHOCDF,
+                        fibre: foodNutrients.nutrients.FIBTG,
+                      },
+                    })
+                  }
+                >
+                  <Text style={styles2.buttonLabel}>Enter result</Text>
+                </TouchableHighlight>
+              )}
             </View>
           ),
         ]
@@ -71,6 +109,19 @@ const styles2 = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#05666C",
     marginBottom: 15,
+  },
+  resultContainer: {
+    alignItems: "center",
+  },
+  buttonLabel: {
+    color: "#fff",
+    textAlign: "center",
+    backgroundColor: "#05666C",
+    borderRadius: 5,
+    padding: 10,
+    fontSize: 15,
+    fontWeight: "500",
+    width: 220,
   },
 });
 

@@ -9,12 +9,18 @@ import {
   HANDLE_SEARCH_FOOD,
   SEARCH_FOOD,
   LOADING,
+  ENTER_MEAL,
   NO_FOOD_RESULTS,
   HANDLE_FOOD_ITEM,
   TOGGLE_FOOD_FORM,
 } from "../helpers/types";
 import axios from "axios";
 import { host } from "../config/local";
+// import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+//Key used by AsyncStorage
+const STORAGE_KEY = "app_storage";
 
 //This initialises the Context API - we can then use it to create a Provider
 const AppContext = React.createContext({});
@@ -39,9 +45,13 @@ const diaryReducer = (state, action) => {
         searchFoodTerm: action.payload,
       };
     case HANDLE_FOOD_ITEM:
+      console.log(action.payload);
       return {
         ...state,
-        foodItem: action.payload,
+        foodItem: {
+          ...state.foodItem,
+          [action.payload.item]: action.payload.value,
+        },
       };
     case LOADING:
       return {
@@ -82,9 +92,13 @@ const diaryReducer = (state, action) => {
         serverMsg: "",
       };
     case LOGIN:
+      AsyncStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ _id: action.payload._id })
+      );
       return {
         ...state,
-        isLogged: action.payload,
+        isLogged: action.payload.isLogged,
         isGuest: false,
         serverMsg: "",
       };
@@ -156,10 +170,10 @@ export const AppProvider = ({ children }) => {
     });
   };
 
-  const handleFoodItem = (value) => {
+  const handleFoodItem = (value, item) => {
     dispatch({
       type: HANDLE_FOOD_ITEM,
-      payload: value,
+      payload: { item, value },
     });
   };
 
@@ -219,8 +233,9 @@ export const AppProvider = ({ children }) => {
       .then((res) => {
         dispatch({
           type: LOGIN,
-          payload: res.data.isLogged,
+          payload: { isLogged: res.data.isLogged, _id: res.data.data._id },
         });
+        console.log(res.data);
       })
       .catch((err) => {
         dispatch({
@@ -247,6 +262,26 @@ export const AppProvider = ({ children }) => {
       });
   };
 
+  const enterMeal = async (meal) => {
+    let storage = await AsyncStorage.getItem(STORAGE_KEY);
+    storage = JSON.parse(storage);
+
+    axios
+      .post(`${host}/api/meals/${storage._id}`, { meal })
+      .then((res) => {
+        dispatch({
+          type: ENTER_MEAL,
+          payload: "success",
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: SERVER_MSG,
+          payload: "An error has occured",
+        });
+      });
+  };
+
   //The state and the actions are passed to the highest level component App.js
   return (
     <AppContext.Provider
@@ -262,6 +297,7 @@ export const AppProvider = ({ children }) => {
         login,
         signup,
         enterAsGuest,
+        enterMeal,
       }}
     >
       {children}
