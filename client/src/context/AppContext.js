@@ -94,7 +94,7 @@ const diaryReducer = (state, action) => {
     case LOGIN:
       AsyncStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ _id: action.payload._id })
+        JSON.stringify({ _id: action.payload._id, isLogged: true })
       );
       return {
         ...state,
@@ -105,6 +105,10 @@ const diaryReducer = (state, action) => {
         serverMsg: "",
       };
     case LOGOUT:
+      AsyncStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ _id: "", isLogged: false })
+      );
       return {
         ...state,
         isLogged: false,
@@ -153,12 +157,18 @@ const diaryReducer = (state, action) => {
   }
 };
 
+const getLogin = async () => {
+  let storage = await AsyncStorage.getItem(STORAGE_KEY);
+  storage = JSON.parse(storage);
+  return storage.isLogged;
+};
+
 //This is the initial state of the application
 const initialState = {
   email: "",
   password: "",
   isLoginForm: true,
-  isLogged: false,
+  isLogged: getLogin(),
   isGuest: false,
   serverMsg: "",
   searchFoodTerm: "",

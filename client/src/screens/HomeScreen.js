@@ -1,12 +1,22 @@
-import React, { useContext } from "react";
-import { View, Text, StatusBar, Button } from "react-native";
+import React, { useContext, useState } from "react";
+import {
+  View,
+  Text,
+  StatusBar,
+  Button,
+  ScrollView,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 
 import ProfileComponent from "../components/ProfileComponent";
 import ProfileEditComponent from "../components/ProfileEditComponent";
 import ExportComponent from "../components/ExportComponent";
 import styles from "../styles";
 import AppContext from "../context/AppContext";
+import ViewHeader from "../components/ViewHeader";
 
 const Stack = createStackNavigator();
 
@@ -22,55 +32,117 @@ const HomeScreen = () => {
 };
 
 const MainScreen = ({ navigation }) => {
+  const [currentDate, setCurentDate] = useState("");
   const { logout } = useContext(AppContext);
+
+  const meal = { key: "meal", color: "#05666C" };
+  const insulin = { key: "insulin", color: "orange" };
+  const dates = ["2021-03-16", "2021-03-17", "2021-03-18", "2021-03-19"];
 
   const logoff = () => {
     logout();
     navigation.navigate("Start");
   };
   return (
-    <View>
-      <StatusBar style="auto" />
-      <Text style={styles.title}>Dashboard</Text>
-      <View>
-        <Text style={styles.label}>Daily Average</Text>
-      </View>
-      <View>
-        <Text style={styles.label}>Calories</Text>
-        <Text></Text>
-      </View>
-      <View>
-        <Text style={styles.label}>Carbohydrates</Text>
-        <Text></Text>
-      </View>
-      <View>
-        <Text style={styles.label}>Protein</Text>
-        <Text></Text>
-      </View>
-      <View>
-        <Text style={styles.label}>Fat</Text>
-        <Text></Text>
-      </View>
-      <View>
-        <Text style={styles.label}>Insulin usage</Text>
-      </View>
-      <Button
-        style={styles.button}
-        title="Profile"
-        onPress={() => {
-          navigation.navigate("Profile");
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.wrapper}
+    >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
+          alignItems: "center",
+          backgroundColor: "#fff",
         }}
-      />
-      <Button
-        style={styles.button}
-        title="Save Export"
-        onPress={() => {
-          navigation.navigate("Export");
-        }}
-      />
-      <Text onPress={() => logoff()}>Log out</Text>
-    </View>
+      >
+        <ViewHeader
+          title="Dashboard"
+          description="View your activity and manage your profile"
+        />
+        <View style={{ width: "100%", marginTop: 12, marginBottom: 80 }}>
+          <Calendar
+            onDayPress={(day) => {
+              console.log("selected day", day);
+              setCurentDate(day.dateString);
+            }}
+            markedDates={{
+              "2021-03-13": {
+                dots: [meal, insulin],
+                selected: currentDate === "2021-03-13" ? true : false,
+              },
+              "2021-03-14": {
+                dots: [meal],
+                selected: currentDate === "2021-03-14" ? true : false,
+              },
+              "2021-03-15": {
+                dots: [insulin],
+                selected: currentDate === "2021-03-15" ? true : false,
+              },
+              "2021-03-16": {
+                dots: [insulin],
+                selected: currentDate === "2021-03-16" ? true : false,
+              },
+              "2021-03-17": {
+                dots: [meal, insulin],
+                selected: currentDate === "2021-03-17" ? true : false,
+                // selectedColor: "#05666C",
+              },
+              "2021-03-19": {
+                marked: true,
+                selected: currentDate === "2021-03-19" ? true : false,
+                dots: [meal],
+              },
+            }}
+            markingType={"multi-dot"}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: 15,
+              marginTop: 5,
+            }}
+          >
+            <View style={innerStyles.mealCircle}></View>
+            <Text>Meal</Text>
+            <View style={innerStyles.insulinCircle}></View>
+            <Text>Insulin</Text>
+          </View>
+          <View>
+            <Text>Selected</Text>
+            <Text>{currentDate}</Text>
+          </View>
+        </View>
+        <ViewHeader title="Profile" description="Manage your profile" />
+        <Text onPress={() => logoff()}>Log out</Text>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
+
+const innerStyles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    padding: 20,
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  mealCircle: {
+    width: 10,
+    height: 10,
+    backgroundColor: "#05666C",
+    borderRadius: 50,
+    marginRight: 5,
+  },
+  insulinCircle: {
+    width: 10,
+    height: 10,
+    backgroundColor: "orange",
+    borderRadius: 50,
+    marginRight: 5,
+    marginLeft: 20,
+  },
+});
 
 export default HomeScreen;

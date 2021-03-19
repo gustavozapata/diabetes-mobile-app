@@ -16,6 +16,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import styles from "../styles";
 import EnterNewItem from "../components/EnterNewItem";
+import ViewHeader from "../components/ViewHeader";
 
 const EnterMealScreen = () => {
   const Stack = createStackNavigator();
@@ -45,10 +46,10 @@ const MainScreen = () => {
           backgroundColor: "#fff",
         }}
       >
-        <View style={{ width: "100%" }}>
-          <Text style={styles.title}>Enter Meal</Text>
-          <Text>Use the search bar to find the food item</Text>
-        </View>
+        <ViewHeader
+          title="Enter Meal"
+          description="Use the search bar to find the food item"
+        />
         <View style={{ marginTop: 20 }}>
           <SearchBar />
           {hasJustEnteredMeal ? (

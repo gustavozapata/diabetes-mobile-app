@@ -8,7 +8,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 
-const ProfileComponent = ({navigation, route}) => {
+const ProfileComponent = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -26,9 +26,9 @@ const ProfileComponent = ({navigation, route}) => {
       //do HTTP stuff if contents has changed
     }
   }, [route.params]);
-  
+
   return (
-    <View>
+    <View style={{ marginTop: 50 }}>
       <Text>Profile</Text>
       <View>
         <Text>Email</Text>
@@ -54,20 +54,23 @@ const ProfileComponent = ({navigation, route}) => {
         <Text>Height</Text>
         <Text>{height}</Text>
       </View>
-      <Button title="Edit profile" onPress={() => {
-        navigation.navigate("ProfileEdit", {
-          params: {
-            _email: email,
-            _password: password,
-            _firstName: firstName,
-            _lastName: lastName,
-            _weight: weight,
-            _height: height
-          }
-        });
-      }} />
+      <Button
+        title="Edit profile"
+        onPress={() => {
+          navigation.navigate("ProfileEdit", {
+            params: {
+              _email: email,
+              _password: password,
+              _firstName: firstName,
+              _lastName: lastName,
+              _weight: weight,
+              _height: height,
+            },
+          });
+        }}
+      />
     </View>
   );
-}
+};
 
 export default ProfileComponent;
