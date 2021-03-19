@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import {
   TOGGLE_LOGIN_FORM,
   LOGIN,
@@ -10,6 +10,7 @@ import {
   HANDLE_SEARCH_FOOD,
   SEARCH_FOOD,
   LOADING,
+  GET_DATA,
   SUCCESS_ENTER_MEAL,
   NEW_ENTER_MEAL,
   NO_FOOD_RESULTS,
@@ -19,6 +20,7 @@ import {
 import axios from "axios";
 import { host } from "../config/local";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { convertDateToCalendarDate } from "../utils/utils";
 
 //Key used by AsyncStorage
 const STORAGE_KEY = "app_storage";
@@ -94,15 +96,22 @@ const diaryReducer = (state, action) => {
     case LOGIN:
       AsyncStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ _id: action.payload._id, isLogged: true })
+        JSON.stringify({ _id: action.payload.data._id, isLogged: true })
       );
       return {
         ...state,
         isLogged: action.payload.isLogged,
         isGuest: false,
+        meals: [...action.payload.data.meals],
         email: "",
         password: "",
         serverMsg: "",
+      };
+    case GET_DATA:
+      return {
+        ...state,
+        meals: action.payload.meals,
+        calendarDates: convertDateToCalendarDate(action.payload.meals),
       };
     case LOGOUT:
       AsyncStorage.setItem(
@@ -163,6 +172,12 @@ const getLogin = async () => {
   return storage.isLogged;
 };
 
+const getId = async () => {
+  let storage = await AsyncStorage.getItem(STORAGE_KEY);
+  storage = JSON.parse(storage);
+  return storage._id;
+};
+
 //This is the initial state of the application
 const initialState = {
   email: "",
@@ -188,6 +203,8 @@ const initialState = {
   showResults: false,
   showFoodForm: false,
   hasJustEnteredMeal: false,
+  meals: [],
+  calendarDates: {},
   foodItem: {
     Name: "",
     Calories: "",
@@ -202,6 +219,15 @@ const initialState = {
 export const AppProvider = ({ children }) => {
   //The Reducer is created and takes the reducers functions and the initial state
   const [state, dispatch] = useReducer(diaryReducer, initialState);
+
+  useEffect(() => {
+    const loadStorage = () => {
+      if (getLogin()) {
+        getData();
+      }
+    };
+    loadStorage();
+  }, [STORAGE_KEY]);
 
   const handleEmail = (value) => {
     dispatch({
@@ -293,7 +319,8 @@ export const AppProvider = ({ children }) => {
       .then((res) => {
         dispatch({
           type: LOGIN,
-          payload: { isLogged: res.data.isLogged, _id: res.data.data._id },
+          payload: res.data,
+          // payload: { isLogged: res.data.isLogged, _id: res.data.data._id, meals: res.data.data },
         });
       })
       .catch((err) => {
@@ -302,6 +329,16 @@ export const AppProvider = ({ children }) => {
           payload: "An error has occured",
         });
       });
+  };
+
+  const getData = async () => {
+    let _id = await getId();
+    axios.get(`${host}/api/meals/${_id}`).then((res) => {
+      dispatch({
+        type: GET_DATA,
+        payload: { meals: res.data.data },
+      });
+    });
   };
 
   const logout = () => {
@@ -316,7 +353,7 @@ export const AppProvider = ({ children }) => {
       .then((res) => {
         dispatch({
           type: LOGIN,
-          payload: res.data.data.isLogged,
+          payload: res.data,
         });
       })
       .catch((err) => {
@@ -328,8 +365,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const enterMeal = async (meal) => {
-    let storage = await AsyncStorage.getItem(STORAGE_KEY);
-    storage = JSON.parse(storage);
+    let storage = getStorage();
     axios
       .post(`${host}/api/meals/${storage._id}`, { meal })
       .then(() => {

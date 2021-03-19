@@ -2,11 +2,11 @@ const User = require("../models/userModel");
 
 exports.getMeals = async (req, res, next) => {
   try {
-    const meals = await User.find();
+    const meals = await User.findOne({ _id: req.params.id }).select("meals");
 
     res.status(200).json({
       status: "success getting",
-      data: meals,
+      data: meals.meals,
     });
   } catch (err) {
     console.log("Diabetes App Error: ", err);

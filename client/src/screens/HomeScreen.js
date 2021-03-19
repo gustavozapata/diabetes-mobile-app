@@ -33,16 +33,16 @@ const HomeScreen = () => {
 
 const MainScreen = ({ navigation }) => {
   const [currentDate, setCurentDate] = useState("");
-  const { logout } = useContext(AppContext);
-
-  const meal = { key: "meal", color: "#05666C" };
-  const insulin = { key: "insulin", color: "orange" };
-  const dates = ["2021-03-16", "2021-03-17", "2021-03-18", "2021-03-19"];
+  const {
+    state: { calendarDates },
+    logout,
+  } = useContext(AppContext);
 
   const logoff = () => {
     logout();
     navigation.navigate("Start");
   };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -63,37 +63,37 @@ const MainScreen = ({ navigation }) => {
         <View style={{ width: "100%", marginTop: 12, marginBottom: 80 }}>
           <Calendar
             onDayPress={(day) => {
-              console.log("selected day", day);
               setCurentDate(day.dateString);
             }}
-            markedDates={{
-              "2021-03-13": {
-                dots: [meal, insulin],
-                selected: currentDate === "2021-03-13" ? true : false,
-              },
-              "2021-03-14": {
-                dots: [meal],
-                selected: currentDate === "2021-03-14" ? true : false,
-              },
-              "2021-03-15": {
-                dots: [insulin],
-                selected: currentDate === "2021-03-15" ? true : false,
-              },
-              "2021-03-16": {
-                dots: [insulin],
-                selected: currentDate === "2021-03-16" ? true : false,
-              },
-              "2021-03-17": {
-                dots: [meal, insulin],
-                selected: currentDate === "2021-03-17" ? true : false,
-                // selectedColor: "#05666C",
-              },
-              "2021-03-19": {
-                marked: true,
-                selected: currentDate === "2021-03-19" ? true : false,
-                dots: [meal],
-              },
-            }}
+            // markedDates={{
+            //   "2021-03-13": {
+            //     dots: [meal, insulin],
+            //     selected: currentDate === "2021-03-13" ? true : false,
+            //   },
+            //   "2021-03-14": {
+            //     dots: [meal],
+            //     selected: currentDate === "2021-03-14" ? true : false,
+            //   },
+            //   "2021-03-15": {
+            //     dots: [insulin],
+            //     selected: currentDate === "2021-03-15" ? true : false,
+            //   },
+            //   "2021-03-16": {
+            //     dots: [insulin],
+            //     selected: currentDate === "2021-03-16" ? true : false,
+            //   },
+            //   "2021-03-17": {
+            //     dots: [meal, insulin],
+            //     selected: currentDate === "2021-03-17" ? true : false,
+            //     // selectedColor: "#05666C",
+            //   },
+            //   "2021-03-19": {
+            //     marked: true,
+            //     selected: currentDate === "2021-03-19" ? true : false,
+            //     dots: [meal],
+            //   },
+            // }}
+            markedDates={calendarDates}
             markingType={"multi-dot"}
           />
           <View
@@ -112,6 +112,12 @@ const MainScreen = ({ navigation }) => {
           <View>
             <Text>Selected</Text>
             <Text>{currentDate}</Text>
+            {calendarDates.length > 0 &&
+              calendarDates.map((date) => (
+                <View key={date.id}>
+                  <Text>{date.markedDate}</Text>
+                </View>
+              ))}
           </View>
         </View>
         <ViewHeader title="Profile" description="Manage your profile" />
