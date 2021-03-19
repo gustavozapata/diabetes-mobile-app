@@ -93,7 +93,7 @@ const MainScreen = ({ navigation }) => {
             //     dots: [meal],
             //   },
             // }}
-            markedDates={calendarDates}
+            markedDates={calendarDates.markedDates}
             markingType={"multi-dot"}
           />
           <View
@@ -109,16 +109,10 @@ const MainScreen = ({ navigation }) => {
             <View style={innerStyles.insulinCircle}></View>
             <Text>Insulin</Text>
           </View>
-          <View>
-            <Text>Selected</Text>
-            <Text>{currentDate}</Text>
-            {calendarDates.length > 0 &&
-              calendarDates.map((date) => (
-                <View key={date.id}>
-                  <Text>{date.markedDate}</Text>
-                </View>
-              ))}
-          </View>
+
+          {calendarDates.mealInfo && calendarDates.mealInfo[currentDate] && (
+            <Text>{calendarDates.mealInfo[currentDate].meal.meal}</Text>
+          )}
         </View>
         <ViewHeader title="Profile" description="Manage your profile" />
         <Text onPress={() => logoff()}>Log out</Text>
