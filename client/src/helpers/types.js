@@ -10,6 +10,7 @@ export const HANDLE_SEARCH_FOOD = "HANDLE_SEARCH_FOOD";
 export const NO_FOOD_RESULTS = "NO_FOOD_RESULTS";
 export const LOADING = "LOADING";
 export const GET_DATA = "GET_DATA";
+export const GET_EMAIL = "GET_EMAIL";
 export const SUCCESS_ENTER_MEAL = "SUCCESS_ENTER_MEAL";
 export const NEW_ENTER_MEAL = "NEW_ENTER_MEAL";
 export const HANDLE_FOOD_ITEM = "HANDLE_FOOD_ITEM";

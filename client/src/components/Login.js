@@ -23,7 +23,7 @@ const Login = () => {
   return (
     <View style={styles.startScreenWrapper}>
       {/* FIXME: DELETE LOGIN() - ONLY FOR DEV */}
-      <Text style={styles.title} onPress={() => login("tavo", "123")}>
+      <Text style={styles.title} onPress={() => login("tavo@mail.com", "123")}>
         Login
       </Text>
       <Text style={styles.label}>Email</Text>

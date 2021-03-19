@@ -11,6 +11,7 @@ import {
   SEARCH_FOOD,
   LOADING,
   GET_DATA,
+  GET_EMAIL,
   SUCCESS_ENTER_MEAL,
   NEW_ENTER_MEAL,
   NO_FOOD_RESULTS,
@@ -96,10 +97,15 @@ const diaryReducer = (state, action) => {
     case LOGIN:
       AsyncStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ _id: action.payload.data._id, isLogged: true })
+        JSON.stringify({
+          _id: action.payload.data._id,
+          isLogged: true,
+          // email: action.payload.data.email,
+        })
       );
       return {
         ...state,
+        profileEmail: action.payload.data.email,
         isLogged: action.payload.isLogged,
         isGuest: false,
         meals: [...action.payload.data.meals],
@@ -112,6 +118,10 @@ const diaryReducer = (state, action) => {
         ...state,
         meals: action.payload.meals,
         calendarDates: convertDateToCalendarDate(action.payload.meals),
+      };
+    case GET_EMAIL:
+      return {
+        ...state,
       };
     case LOGOUT:
       AsyncStorage.setItem(
@@ -178,9 +188,17 @@ const getId = async () => {
   return storage._id;
 };
 
+// const getEmail = async () => {
+//   let storage = await AsyncStorage.getItem(STORAGE_KEY);
+//   storage = JSON.parse(storage);
+//   return storage.email;
+// };
+
 //This is the initial state of the application
 const initialState = {
   email: "",
+  // profileEmail: getEmail(),
+  profileEmail: "",
   password: "",
   isLoginForm: true,
   isLogged: getLogin(),
@@ -221,9 +239,13 @@ export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(diaryReducer, initialState);
 
   useEffect(() => {
+    // AsyncStorage.clear();
     const loadStorage = () => {
       if (getLogin()) {
         getData();
+        dispatch({
+          type: GET_EMAIL,
+        });
       }
     };
     loadStorage();
@@ -322,6 +344,7 @@ export const AppProvider = ({ children }) => {
           payload: res.data,
           // payload: { isLogged: res.data.isLogged, _id: res.data.data._id, meals: res.data.data },
         });
+        getData();
       })
       .catch((err) => {
         dispatch({
@@ -365,9 +388,9 @@ export const AppProvider = ({ children }) => {
   };
 
   const enterMeal = async (meal) => {
-    let storage = getStorage();
+    let _id = await getId();
     axios
-      .post(`${host}/api/meals/${storage._id}`, { meal })
+      .post(`${host}/api/meals/${_id}`, { meal })
       .then(() => {
         dispatch({
           type: SUCCESS_ENTER_MEAL,

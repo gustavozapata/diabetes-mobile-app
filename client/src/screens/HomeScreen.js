@@ -17,6 +17,8 @@ import ExportComponent from "../components/ExportComponent";
 import styles from "../styles";
 import AppContext from "../context/AppContext";
 import ViewHeader from "../components/ViewHeader";
+import InfoBar from "../components/InfoBar";
+import ProfileFragment from "./ProfileFragment";
 
 const Stack = createStackNavigator();
 
@@ -111,11 +113,21 @@ const MainScreen = ({ navigation }) => {
           </View>
 
           {calendarDates.mealInfo && calendarDates.mealInfo[currentDate] && (
-            <Text>{calendarDates.mealInfo[currentDate].meal.meal}</Text>
+            <View style={innerStyles.calendaritemSelected}>
+              <View style={innerStyles.results}>
+                <Text style={{ margin: -6 }}>
+                  {calendarDates.mealInfo[currentDate].meal.meal}
+                </Text>
+                {Object.entries(
+                  calendarDates.mealInfo[currentDate].meal.nutrients
+                ).map(([key, value]) => (
+                  <InfoBar title={key} value={value} key={key} />
+                ))}
+              </View>
+            </View>
           )}
         </View>
-        <ViewHeader title="Profile" description="Manage your profile" />
-        <Text onPress={() => logoff()}>Log out</Text>
+        <ProfileFragment logoff={logoff} />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -127,6 +139,13 @@ const innerStyles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     backgroundColor: "#fff",
+  },
+  results: {
+    borderWidth: 1,
+    borderColor: "#000",
+    padding: 10,
+    marginTop: 10,
+    alignItems: "center",
   },
   mealCircle: {
     width: 10,
@@ -142,6 +161,9 @@ const innerStyles = StyleSheet.create({
     borderRadius: 50,
     marginRight: 5,
     marginLeft: 20,
+  },
+  calendaritemSelected: {
+    alignItems: "center",
   },
 });
 
