@@ -39,16 +39,17 @@ const InsulinMainComponent = ({ navigation, route }) => {
         console.log(error);
       }
     }
+    /*
     for (let i = 0; i < days[currentDay].Insulin.length; i++) {
       const element = days.Insulin[i];
       insulinItems.push(<View>
         <Text>{days.Insulin[i].Datetime}</Text><Text>{days.Insulin[i].type} {days.Insulin[i].amount}</Text><Button onPress={() => { navigation.navigate("InsulinDelete", { day: days, i: element }); }}><Ionicons name="trash" /></Button>
       </View>);
-    }
+    }*/
   });
 
   var currentDay = 0;
-  // Get all items in a day and 
+  // Get all items in a day
   var insulinItems = [];
   
 
