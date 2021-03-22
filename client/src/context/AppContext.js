@@ -18,6 +18,8 @@ import {
   HANDLE_FOOD_ITEM,
   HANDLE_FOOD_QUANTITY,
   TOGGLE_FOOD_FORM,
+  SUCCESS_ENTER_INSULIN,
+  SUCCESS_DELETE_INSULIN,
 } from "../helpers/types";
 import axios from "axios";
 import { host } from "../config/local";
@@ -196,6 +198,24 @@ const diaryReducer = (state, action) => {
       return {
         ...state,
         serverMsg: action.payload,
+      };
+    case NEW_ENTER_INSULIN:
+      return{
+        ...state,
+
+      }
+    case DELETE_INSULIN:
+      return{
+        ...state,
+
+      };
+    case SUCCESS_ENTER_INSULIN:
+      return{
+        ...state,
+      };
+    case SUCCESS_DELETE_INSULIN:
+      return{
+        ...state,
       };
     default:
       return state;
@@ -440,6 +460,38 @@ export const AppProvider = ({ children }) => {
       });
   };
 
+  const enterInsulin = async (insulin) =>{
+    console.log(insulin);
+    let id = await getId();
+    axios.post(`${host}/api/insulin/${id}`,{insulin}).then(() =>{
+      dispatch({
+        type: SUCCESS_ENTER_INSULIN,
+        payload:insulin
+      });
+    }).catch((err)=>{
+      dispatch({
+        type: SERVER_MSG,
+        payload:"Error occured while submitting insulin"
+      })
+    })
+  }
+
+  const deleteInsulin = async (insulin) =>{
+    console.log(insulin);
+    let id = await getId();
+    axios.delete(`${host}/api/insulin/${id}`).then(() =>{
+      dispatch({
+        type: SUCCESS_DELETE_INSULIN,
+        payload:insulin
+      });
+    }).catch((err)=>{
+      dispatch({
+        type: SERVER_MSG,
+        payload:"Error occured while submitting insulin"
+      })
+    })
+  }
+
   //The state and the actions are passed to the highest level component App.js
   return (
     <AppContext.Provider
@@ -461,6 +513,8 @@ export const AppProvider = ({ children }) => {
         enterAsGuest,
         goBackToStart,
         enterMeal,
+        enterInsulin,
+        deleteInsulin
       }}
     >
       {children}
