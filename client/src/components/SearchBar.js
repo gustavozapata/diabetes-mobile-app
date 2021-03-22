@@ -31,7 +31,9 @@ const SearchBar = () => {
         value={searchFoodTerm}
         style={styles.inputSearch}
         //this runs whenever the user presses the 'return' key on the keyboard
-        onSubmitEditing={() => searchFood(searchFoodTerm)}
+        onSubmitEditing={() =>
+          searchFoodTerm !== "" && searchFood(searchFoodTerm)
+        }
       />
     </View>
   );

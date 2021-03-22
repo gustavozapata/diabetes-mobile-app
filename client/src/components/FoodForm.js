@@ -1,12 +1,5 @@
 import React, { useContext } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import AppContext from "../context/AppContext";
 
 import styles from "../styles";
@@ -18,6 +11,35 @@ const FoodForm = () => {
     handleFoodItem,
     enterMeal,
   } = useContext(AppContext);
+
+  const constructMealObject = () => {
+    let nutrients = {};
+    {
+      Object.entries(foodItem).map(([key, value]) => {
+        if (key !== "Name") {
+          nutrients = {
+            ...nutrients,
+            [key.toLocaleLowerCase()]:
+              value * foodQuantityManual + getMeasure(key),
+          };
+        }
+      });
+    }
+    return {
+      meal: foodItem.Name,
+      quantity: foodQuantityManual,
+      nutrients,
+    };
+  };
+
+  const getMeasure = (nutrient) => {
+    switch (nutrient) {
+      case "Calories":
+        return " kcal";
+      default:
+        return " gram";
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -49,17 +71,9 @@ const FoodForm = () => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            enterMeal({
-              meal: foodItem.Name,
-              quantity: foodQuantityManual,
-              nutrients: {
-                calories: foodItem.Calories + " kcal",
-                protein: foodItem.Protein + " gram",
-                fat: foodItem.Fat + " gram",
-                carbs: foodItem.Carbs + " gram",
-                fibre: foodItem.Fibre + " gram",
-              },
-            });
+            if (foodItem.Name !== "") {
+              enterMeal(constructMealObject());
+            }
           }}
         >
           <Text style={[styles.buttonLabel, { marginBottom: 100 }]}>
@@ -70,11 +84,5 @@ const FoodForm = () => {
     </View>
   );
 };
-
-//button
-//buttonlabel
-//foodInput
-//input
-//container
 
 export default FoodForm;

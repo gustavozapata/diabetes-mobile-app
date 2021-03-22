@@ -185,7 +185,6 @@ const diaryReducer = (state, action) => {
         showResults: false,
         foodItem: {
           Name: "",
-          Quantity: "",
           Calories: "",
           Carbs: "",
           Fat: "",
@@ -253,7 +252,6 @@ const initialState = {
   foodQuantityManual: 1,
   foodItem: {
     Name: "",
-    Quantity: "",
     Calories: "",
     Carbs: "",
     Fat: "",
@@ -379,7 +377,6 @@ export const AppProvider = ({ children }) => {
         dispatch({
           type: LOGIN,
           payload: res.data,
-          // payload: { isLogged: res.data.isLogged, _id: res.data.data._id, meals: res.data.data },
         });
         getData();
       })
@@ -425,6 +422,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const enterMeal = async (meal) => {
+    console.log(meal);
     let _id = await getId();
     axios
       .post(`${host}/api/meals/${_id}`, { meal })

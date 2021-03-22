@@ -31,7 +31,7 @@ const FoodResults = () => {
       Object.entries(foodNutrients.nutrients).map(([key, value]) => {
         nutrients = {
           ...nutrients,
-          [getNutrient(key)]: value + getMeasure(key),
+          [getNutrient(key)]: value * foodQuantity + getMeasure(key),
         };
       });
     }
