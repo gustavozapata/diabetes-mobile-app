@@ -25,6 +25,47 @@ const FoodResults = () => {
     enterMeal,
   } = useContext(AppContext);
 
+  const constructMealObject = () => {
+    let nutrients = {};
+    {
+      Object.entries(foodNutrients.nutrients).map(([key, value]) => {
+        nutrients = {
+          ...nutrients,
+          [getNutrient(key)]: value + getMeasure(key),
+        };
+      });
+    }
+    return {
+      meal: searchFoodTerm,
+      quantity: foodQuantity,
+      nutrients,
+    };
+  };
+
+  const getNutrient = (nutrient) => {
+    switch (nutrient) {
+      case "ENERC_KCAL":
+        return "calories";
+      case "PROCNT":
+        return "protein";
+      case "FAT":
+        return "fat";
+      case "CHOCDF":
+        return "carbs";
+      case "FIBTG":
+        return "fibre";
+    }
+  };
+
+  const getMeasure = (nutrient) => {
+    switch (nutrient) {
+      case "ENERC_KCAL":
+        return " kcal";
+      default:
+        return " gram";
+    }
+  };
+
   return (
     <View style={styles2.container}>
       <Text style={styles.title}>Results</Text>
@@ -50,46 +91,23 @@ const FoodResults = () => {
                 style={styles2.image}
                 source={{ uri: foodNutrients.image }}
               />
-              <InfoBar
-                title="Calories"
-                value={foodNutrients.nutrients.ENERC_KCAL + " kcal"}
-              />
-              <InfoBar
-                title="Protein"
-                value={foodNutrients.nutrients.PROCNT + " gram"}
-              />
-              <InfoBar
-                title="Fat"
-                value={foodNutrients.nutrients.FAT + " gram"}
-              />
-              <InfoBar
-                title="Carbs"
-                value={foodNutrients.nutrients.CHOCDF + " gram"}
-              />
-              <InfoBar
-                title="Fibre"
-                value={foodNutrients.nutrients.FIBTG + " gram"}
-              />
+
+              {Object.keys(foodNutrients.nutrients).map((nutrient, i) => (
+                <InfoBar
+                  key={i}
+                  title={getNutrient(nutrient)}
+                  value={
+                    foodNutrients.nutrients[nutrient] + getMeasure(nutrient)
+                  }
+                />
+              ))}
 
               {!isGuest && (
                 <View style={{ alignItems: "center" }}>
                   <FoodQuantity isManual={false} />
                   <TouchableHighlight
                     style={styles.button}
-                    onPress={() =>
-                      enterMeal({
-                        meal: searchFoodTerm,
-                        quantity: foodQuantity,
-                        nutrients: {
-                          calories:
-                            foodNutrients.nutrients.ENERC_KCAL + " kcal",
-                          protein: foodNutrients.nutrients.PROCNT + " gram",
-                          fat: foodNutrients.nutrients.FAT + " gram",
-                          carbs: foodNutrients.nutrients.CHOCDF + " gram",
-                          fibre: foodNutrients.nutrients.FIBTG + " gram",
-                        },
-                      })
-                    }
+                    onPress={() => enterMeal(constructMealObject())}
                   >
                     <Text style={styles2.buttonLabel}>Enter result</Text>
                   </TouchableHighlight>
@@ -131,6 +149,3 @@ const styles2 = StyleSheet.create({
 });
 
 export default FoodResults;
-
-//buttonlabel
-//

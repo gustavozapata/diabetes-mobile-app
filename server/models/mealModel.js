@@ -5,6 +5,9 @@ const MealSchema = mongoose.Schema({
     type: String,
     required: [true, "You must enter an meal"],
   },
+  quantity: {
+    type: Number,
+  },
   nutrients: {
     type: Object,
   },

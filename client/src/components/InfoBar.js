@@ -6,7 +6,7 @@ const InfoBar = ({ title, value }) => {
     <View style={{ width: 190 }}>
       <View style={innerStyles.header}>
         <Text style={innerStyles.label}>{title}</Text>
-        <Text style={innerStyles.measure}>{value}</Text>
+        <Text style={innerStyles.measure}>{value ? value : "-"}</Text>
       </View>
     </View>
   );
