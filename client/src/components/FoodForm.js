@@ -10,10 +10,11 @@ import {
 import AppContext from "../context/AppContext";
 
 import styles from "../styles";
+import FoodQuantity from "./FoodQuantity";
 
 const FoodForm = () => {
   const {
-    state: { foodItem },
+    state: { foodItem, foodQuantityManual },
     handleFoodItem,
     enterMeal,
   } = useContext(AppContext);
@@ -44,11 +45,13 @@ const FoodForm = () => {
             </View>
           ))}
         </View>
+        <FoodQuantity isManual={true} />
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
             enterMeal({
               meal: foodItem.Name,
+              quantity: foodQuantityManual,
               nutrients: {
                 calories: foodItem.Calories + " kcal",
                 protein: foodItem.Protein + " gram",

@@ -16,6 +16,7 @@ import {
   NEW_ENTER_MEAL,
   NO_FOOD_RESULTS,
   HANDLE_FOOD_ITEM,
+  HANDLE_FOOD_QUANTITY,
   TOGGLE_FOOD_FORM,
 } from "../helpers/types";
 import axios from "axios";
@@ -139,12 +140,34 @@ const diaryReducer = (state, action) => {
         ...state,
         isGuest: action.payload,
       };
+    case HANDLE_FOOD_QUANTITY:
+      if (action.payload.isManual) {
+        return {
+          ...state,
+          foodQuantityManual:
+            action.payload.value === "more"
+              ? state.foodQuantityManual + 1
+              : state.foodQuantityManual === 1
+              ? 1
+              : state.foodQuantityManual - 1,
+        };
+      }
+      return {
+        ...state,
+        foodQuantity:
+          action.payload.value === "more"
+            ? state.foodQuantity + 1
+            : state.foodQuantity === 1
+            ? 1
+            : state.foodQuantity - 1,
+      };
     case SUCCESS_ENTER_MEAL:
       return {
         ...state,
         hasJustEnteredMeal: true,
         foodItem: {
           Name: action.payload.meal,
+          Quantity: action.payload.quantity,
           Calories: action.payload.nutrients.calories,
           Carbs: action.payload.nutrients.carbs,
           Fat: action.payload.nutrients.fat,
@@ -157,9 +180,12 @@ const diaryReducer = (state, action) => {
         ...state,
         hasJustEnteredMeal: false,
         searchFoodTerm: "",
+        foodQuantity: 1,
+        foodQuantityManual: 1,
         showResults: false,
         foodItem: {
           Name: "",
+          Quantity: "",
           Calories: "",
           Carbs: "",
           Fat: "",
@@ -223,8 +249,11 @@ const initialState = {
   hasJustEnteredMeal: false,
   meals: [],
   calendarDates: {},
+  foodQuantity: 1,
+  foodQuantityManual: 1,
   foodItem: {
     Name: "",
+    Quantity: "",
     Calories: "",
     Carbs: "",
     Fat: "",
@@ -270,6 +299,13 @@ export const AppProvider = ({ children }) => {
     dispatch({
       type: HANDLE_FOOD_ITEM,
       payload: { item, value },
+    });
+  };
+
+  const handleFoodQuantity = (isManual, value) => {
+    dispatch({
+      type: HANDLE_FOOD_QUANTITY,
+      payload: { isManual, value },
     });
   };
 
@@ -415,6 +451,7 @@ export const AppProvider = ({ children }) => {
         handlePassword,
         handleSearchFood,
         handleFoodItem,
+        handleFoodQuantity,
         searchFood,
         toggleLoginForm,
         toggleShowForm,

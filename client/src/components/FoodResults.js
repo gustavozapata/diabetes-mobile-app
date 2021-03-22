@@ -10,10 +10,18 @@ import AppContext from "../context/AppContext";
 
 import styles from "../styles";
 import InfoBar from "./InfoBar";
+import FoodQuantity from "./FoodQuantity";
 
 const FoodResults = () => {
   const {
-    state: { foodNutrients, isLoading, notFound, searchFoodTerm, isGuest },
+    state: {
+      foodNutrients,
+      isLoading,
+      notFound,
+      searchFoodTerm,
+      isGuest,
+      foodQuantity,
+    },
     enterMeal,
   } = useContext(AppContext);
 
@@ -64,23 +72,28 @@ const FoodResults = () => {
               />
 
               {!isGuest && (
-                <TouchableHighlight
-                  style={styles.button}
-                  onPress={() =>
-                    enterMeal({
-                      meal: searchFoodTerm,
-                      nutrients: {
-                        calories: foodNutrients.nutrients.ENERC_KCAL + " kcal",
-                        protein: foodNutrients.nutrients.PROCNT + " gram",
-                        fat: foodNutrients.nutrients.FAT + " gram",
-                        carbs: foodNutrients.nutrients.CHOCDF + " gram",
-                        fibre: foodNutrients.nutrients.FIBTG + " gram",
-                      },
-                    })
-                  }
-                >
-                  <Text style={styles2.buttonLabel}>Enter result</Text>
-                </TouchableHighlight>
+                <View style={{ alignItems: "center" }}>
+                  <FoodQuantity isManual={false} />
+                  <TouchableHighlight
+                    style={styles.button}
+                    onPress={() =>
+                      enterMeal({
+                        meal: searchFoodTerm,
+                        quantity: foodQuantity,
+                        nutrients: {
+                          calories:
+                            foodNutrients.nutrients.ENERC_KCAL + " kcal",
+                          protein: foodNutrients.nutrients.PROCNT + " gram",
+                          fat: foodNutrients.nutrients.FAT + " gram",
+                          carbs: foodNutrients.nutrients.CHOCDF + " gram",
+                          fibre: foodNutrients.nutrients.FIBTG + " gram",
+                        },
+                      })
+                    }
+                  >
+                    <Text style={styles2.buttonLabel}>Enter result</Text>
+                  </TouchableHighlight>
+                </View>
               )}
             </View>
           ),
