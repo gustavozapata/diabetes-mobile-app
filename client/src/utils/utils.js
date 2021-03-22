@@ -28,6 +28,6 @@ exports.convertDateToCalendarDate = (dates) => {
   }
   calendarDates.markedDates = markedDates;
   calendarDates.mealInfo = mealInfo;
-  console.log(calendarDates);
+  // console.log(calendarDates);
   return calendarDates;
 };

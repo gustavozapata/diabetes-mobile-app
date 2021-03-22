@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -17,8 +17,8 @@ import ExportComponent from "../components/ExportComponent";
 import styles from "../styles";
 import AppContext from "../context/AppContext";
 import ViewHeader from "../components/ViewHeader";
-import InfoBar from "../components/InfoBar";
 import ProfileFragment from "./ProfileFragment";
+import CalendarItemSelected from "../components/CalendarItemSelected";
 
 const Stack = createStackNavigator();
 
@@ -38,7 +38,16 @@ const MainScreen = ({ navigation }) => {
   const {
     state: { calendarDates },
     logout,
+    getData,
   } = useContext(AppContext);
+
+  // https://reactnavigation.org/docs/function-after-focusing-screen/
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      getData();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const logoff = () => {
     logout();
@@ -112,19 +121,14 @@ const MainScreen = ({ navigation }) => {
             <Text>Insulin</Text>
           </View>
 
-          {calendarDates.mealInfo && calendarDates.mealInfo[currentDate] && (
-            <View style={innerStyles.calendaritemSelected}>
-              <View style={innerStyles.results}>
-                <Text style={{ margin: -6 }}>
-                  {calendarDates.mealInfo[currentDate].meal.meal}
-                </Text>
-                {Object.entries(
-                  calendarDates.mealInfo[currentDate].meal.nutrients
-                ).map(([key, value]) => (
-                  <InfoBar title={key} value={value} key={key} />
-                ))}
-              </View>
-            </View>
+          {calendarDates.mealInfo && calendarDates.mealInfo[currentDate] ? (
+            <CalendarItemSelected currentDate={currentDate} />
+          ) : (
+            currentDate !== "" && (
+              <Text style={{ textAlign: "center", marginTop: 50 }}>
+                No data recorded
+              </Text>
+            )
           )}
         </View>
         <ProfileFragment logoff={logoff} />
@@ -134,19 +138,6 @@ const MainScreen = ({ navigation }) => {
 };
 
 const innerStyles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 20,
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  results: {
-    borderWidth: 1,
-    borderColor: "#000",
-    padding: 10,
-    marginTop: 10,
-    alignItems: "center",
-  },
   mealCircle: {
     width: 10,
     height: 10,
@@ -161,9 +152,6 @@ const innerStyles = StyleSheet.create({
     borderRadius: 50,
     marginRight: 5,
     marginLeft: 20,
-  },
-  calendaritemSelected: {
-    alignItems: "center",
   },
 });
 

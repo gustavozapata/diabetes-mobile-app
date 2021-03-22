@@ -100,7 +100,7 @@ const diaryReducer = (state, action) => {
         JSON.stringify({
           _id: action.payload.data._id,
           isLogged: true,
-          // email: action.payload.data.email,
+          email: action.payload.data.email,
         })
       );
       return {
@@ -122,6 +122,7 @@ const diaryReducer = (state, action) => {
     case GET_EMAIL:
       return {
         ...state,
+        profileEmail: action.payload,
       };
     case LOGOUT:
       AsyncStorage.setItem(
@@ -176,7 +177,7 @@ const diaryReducer = (state, action) => {
   }
 };
 
-const getLogin = async () => {
+const getIsLogged = async () => {
   let storage = await AsyncStorage.getItem(STORAGE_KEY);
   storage = JSON.parse(storage);
   return storage.isLogged;
@@ -188,20 +189,19 @@ const getId = async () => {
   return storage._id;
 };
 
-// const getEmail = async () => {
-//   let storage = await AsyncStorage.getItem(STORAGE_KEY);
-//   storage = JSON.parse(storage);
-//   return storage.email;
-// };
+const getEmail = async () => {
+  let storage = await AsyncStorage.getItem(STORAGE_KEY);
+  storage = JSON.parse(storage);
+  return storage.email;
+};
 
 //This is the initial state of the application
 const initialState = {
   email: "",
-  // profileEmail: getEmail(),
   profileEmail: "",
   password: "",
   isLoginForm: true,
-  isLogged: getLogin(),
+  isLogged: getIsLogged(),
   isGuest: false,
   serverMsg: "",
   searchFoodTerm: "",
@@ -240,11 +240,12 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     // AsyncStorage.clear();
-    const loadStorage = () => {
-      if (getLogin()) {
+    const loadStorage = async () => {
+      if (getIsLogged()) {
         getData();
         dispatch({
           type: GET_EMAIL,
+          payload: await getEmail(),
         });
       }
     };
@@ -421,6 +422,7 @@ export const AppProvider = ({ children }) => {
         login,
         signup,
         logout,
+        getData,
         enterAsGuest,
         goBackToStart,
         enterMeal,
