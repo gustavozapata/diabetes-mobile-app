@@ -11,7 +11,7 @@ const CalendarItemSelected = ({ currentDate }) => {
   return (
     <View style={innerStyles.container}>
       <View style={innerStyles.results}>
-        <Text style={{ margin: -6, color: "#05666C" }}>
+        <Text style={{ margin: -2, color: "#05666C" }}>
           {calendarDates.mealInfo[currentDate].meal.meal}
         </Text>
         {Object.entries(calendarDates.mealInfo[currentDate].meal.nutrients).map(
