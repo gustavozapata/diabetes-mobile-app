@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./routes/userRoutes");
 const mealRouter = require("./routes/mealRoutes");
+const insulinRouter = require("./routes/insulinRoutes");
 
 const app = express();
 
@@ -13,5 +14,6 @@ app.use(express.json());
 
 app.use("/api/users", userRouter);
 app.use("/api/meals", mealRouter);
+app.use("/api/insulin",insulinRoutes);
 
 module.exports = app;

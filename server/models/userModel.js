@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const MealSchema = require("../models/mealModel");
-const InsulinSchema = require("../models/mealModel");
+const InsulinSchema = require("../models/insulinModel");
 const bcrypt = require("bcryptjs");
 
 const UserSchema = mongoose.Schema({
