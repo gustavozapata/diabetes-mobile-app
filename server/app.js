@@ -14,6 +14,6 @@ app.use(express.json());
 
 app.use("/api/users", userRouter);
 app.use("/api/meals", mealRouter);
-app.use("/api/insulin",insulinRoutes);
+app.use("/api/insulin", insulinRouter);
 
 module.exports = app;
