@@ -2,17 +2,52 @@
 
 ### Project description
 
-In this project, we have decided to use an MVC-style architecture and file structure. As a result of this decision, the code that we write will be arranged into separate folders.
+A mobile application for diabetic type 1 users to keep a record of the food and the inlusin they take.
 
 ### Tech Stack
 
 - JavaScript
 - React Native
+- Node.js
+- Express.js
+- MongoDB
 - Expo CLI
 
-### Depencencies
 
-- React Navigation
-- React Native Calendars
+### Client app
+
+#### Depencencies
+
+- React Navigation - To create routing and navigation for the app
+- React Native Calendars - To display calendar views and populate them with data
+- Axios - To make requests to the server
+- Async Storage - Persistent storage
+
+#### Installation
+
+- cd client
+- npm install
+- npm start
+
+### Server app
+
+#### Dependencies
+
+- Express - Nodejs framework
+- Mongoose - MongoDB framework
+- Cors - Enables CROSS-origin resource sharing
+- Dotenv - Accessing environment variables
+
+#### Installation
+
+- cd server
+- npm install
+- npm start
+
+DB_URI is an environment variable used by the server.js file. DB_URI needs to be replaced by your MongoDB database URI. Make sure you create a file .env and add the URI in here: DB_URI=your-db-uri
+
+### APIs
+
+- Edamam Food API - https://developer.edamam.com/
 
 #### Created by Gustavo Zapata and James Newton
