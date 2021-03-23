@@ -11,9 +11,9 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 
-import ProfileComponent from "../components/ProfileComponent";
-import ProfileEditComponent from "../components/ProfileEditComponent";
-import ExportComponent from "../components/ExportComponent";
+import ProfileComponent from "../components/Profile";
+import ProfileEditComponent from "../components/ProfileEdit";
+import ExportComponent from "../components/Export";
 import styles from "../styles";
 import AppContext from "../context/AppContext";
 import ViewHeader from "../components/ViewHeader";

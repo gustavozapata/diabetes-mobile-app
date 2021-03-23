@@ -3,8 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text, Button } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import InsulinEnterComponent from "../components/InsulinEnterComponent";
-import InsulinDeleteComponent from "../components/InsulinDeleteComponent";
+import InsulinEnterComponent from "../components/InsulinEnter";
+import InsulinDeleteComponent from "../components/InsulinDelete";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
