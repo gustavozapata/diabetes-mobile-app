@@ -18,15 +18,12 @@ import {
   HANDLE_FOOD_ITEM,
   HANDLE_FOOD_QUANTITY,
   TOGGLE_FOOD_FORM,
-<<<<<<< Updated upstream
-  GET_INSULIN,
+  HANDLE_INSULIN,
   ENTER_INSULIN,
   DELETE_INSULIN,
-=======
-  NEW_ENTER_INSULIN,
   SUCCESS_ENTER_INSULIN,
   SUCCESS_DELETE_INSULIN,
->>>>>>> Stashed changes
+  GET_INSULIN,
 } from "../helpers/types";
 import axios from "axios";
 import { host } from "../config/local";
@@ -119,7 +116,6 @@ const diaryReducer = (state, action) => {
         isLogged: action.payload.isLogged,
         isGuest: false,
         meals: [...action.payload.data.meals],
-        insulins: [...action.payload.data.insulins],
         email: "",
         password: "",
         serverMsg: "",
@@ -128,7 +124,7 @@ const diaryReducer = (state, action) => {
       return {
         ...state,
         meals: action.payload.meals,
-        insulin: action.payload.insulin,
+        insulins: action.payload.insulin,
         calendarDates: convertDateToCalendarDate(action.payload),
       };
     case GET_EMAIL:
@@ -150,6 +146,14 @@ const diaryReducer = (state, action) => {
       return {
         ...state,
         isGuest: action.payload,
+      };
+    case HANDLE_INSULIN:
+      return {
+        ...state,
+        insulinItem: {
+          ...state.insulinItem,
+          [action.payload.item]: action.payload.value,
+        },
       };
     case HANDLE_FOOD_QUANTITY:
       if (action.payload.isManual) {
@@ -208,12 +212,13 @@ const diaryReducer = (state, action) => {
         ...state,
         serverMsg: action.payload,
       };
-    case NEW_ENTER_INSULIN:
+    case ENTER_INSULIN:
       return {
         ...state,
-        insulinItem: {
-          ...state.insulinItem,
-          [action.payload.item]: action.payload.value,
+        insulin: {
+          Datetime: action.payload.time,
+          Amount: action.payload.dosage,
+          Type: action.payload.type,
         },
       };
     case SUCCESS_ENTER_INSULIN:
@@ -228,10 +233,10 @@ const diaryReducer = (state, action) => {
       return {
         ...state,
       };
-    case SUCCESS_DELETE_INSULIN:
+    case GET_INSULIN:
       return {
         ...state,
-        insulins: payload.action.insulin,
+        insulin,
       };
     default:
       return state;
@@ -262,7 +267,8 @@ const initialState = {
   profileEmail: "",
   password: "",
   isLoginForm: true,
-  isLogged: getIsLogged(),
+  // isLogged: getIsLogged(),
+  isLogged: false,
   isGuest: false,
   serverMsg: "",
   searchFoodTerm: "",
@@ -277,10 +283,6 @@ const initialState = {
       FIBTG: 0,
     },
   },
-  insulinItem: {
-    insulin: "",
-    dosage: "",
-  },
   isLoading: false,
   notFound: false,
   showResults: false,
@@ -288,6 +290,10 @@ const initialState = {
   hasJustEnteredMeal: false,
   meals: [],
   insulins: [],
+  insulinItem: {
+    insulin: "",
+    dosage: "",
+  },
   calendarDates: {},
   foodQuantity: 1,
   foodQuantityManual: 1,
@@ -309,7 +315,7 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     // AsyncStorage.clear();
     const loadStorage = async () => {
-      if (getIsLogged()) {
+      if (await getIsLogged()) {
         getData();
         dispatch({
           type: GET_EMAIL,
@@ -482,6 +488,13 @@ export const AppProvider = ({ children }) => {
       });
   };
 
+  const handleInsulin = (value, item) => {
+    dispatch({
+      type: HANDLE_INSULIN,
+      payload: { item, value },
+    });
+  };
+
   const enterInsulin = async (insulin) => {
     let id = await getId();
     axios
@@ -497,13 +510,6 @@ export const AppProvider = ({ children }) => {
       });
   };
 
-  const handleInsulin = (value, item) => {
-    dispatch({
-      type: NEW_ENTER_INSULIN,
-      payload: { item, value },
-    });
-  };
-
   const deleteInsulin = async (insulin) => {
     console.log(insulin);
     let id = await getId();
@@ -511,7 +517,7 @@ export const AppProvider = ({ children }) => {
       .delete(`${host}/api/insulin/${id}`)
       .then(() => {
         dispatch({
-          type: SUCCESS_DELETE_INSULIN,
+          type: DELETE_INSULIN,
           payload: insulin,
         });
       })
@@ -523,13 +529,11 @@ export const AppProvider = ({ children }) => {
       });
   };
   const getInsulin = async () => {
-    //console.log("hello from getinsulin");
     let _id = await getId();
-
-    axios.get(`${host}/api/insulin/${_id}`).then((response) => {
+    axios.get(`${host}/api/insulin/${_id}`).then((res) => {
       dispatch({
         type: GET_INSULIN,
-        insulin: response.data.insulin,
+        payload: { meals: res.data.data },
       });
     });
   };
