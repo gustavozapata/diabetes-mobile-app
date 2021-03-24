@@ -18,9 +18,15 @@ import {
   HANDLE_FOOD_ITEM,
   HANDLE_FOOD_QUANTITY,
   TOGGLE_FOOD_FORM,
+<<<<<<< Updated upstream
   GET_INSULIN,
   ENTER_INSULIN,
   DELETE_INSULIN,
+=======
+  NEW_ENTER_INSULIN,
+  SUCCESS_ENTER_INSULIN,
+  SUCCESS_DELETE_INSULIN,
+>>>>>>> Stashed changes
 } from "../helpers/types";
 import axios from "axios";
 import { host } from "../config/local";
@@ -202,20 +208,27 @@ const diaryReducer = (state, action) => {
         ...state,
         serverMsg: action.payload,
       };
-    case ENTER_INSULIN:
+    case NEW_ENTER_INSULIN:
       return {
         ...state,
-        insulin: {
-          Datetime: action.payload.time,
-          Amount: action.payload.amount,
-          Type: action.payload.type,
+        insulinItem: {
+          ...state.insulinItem,
+          [action.payload.item]: action.payload.value,
+        },
+      };
+    case SUCCESS_ENTER_INSULIN:
+      return {
+        ...state,
+        insulinItem: {
+          insulin: "",
+          dosage: "",
         },
       };
     case DELETE_INSULIN:
       return {
         ...state,
       };
-    case GET_INSULIN:
+    case SUCCESS_DELETE_INSULIN:
       return {
         ...state,
         insulins: payload.action.insulin,
@@ -263,6 +276,10 @@ const initialState = {
       CHOCDF: 0,
       FIBTG: 0,
     },
+  },
+  insulinItem: {
+    insulin: "",
+    dosage: "",
   },
   isLoading: false,
   notFound: false,
@@ -466,32 +483,35 @@ export const AppProvider = ({ children }) => {
   };
 
   const enterInsulin = async (insulin) => {
-    console.log(insulin);
     let id = await getId();
     axios
       .post(`${host}/api/insulin/${id}`, { insulin })
       .then(() => {
         dispatch({
-          type: ENTER_INSULIN,
+          type: SUCCESS_ENTER_INSULIN,
           payload: insulin,
         });
       })
       .catch((err) => {
-        dispatch({
-          type: SERVER_MSG,
-          payload: "Error occured while submitting insulin",
-        });
+        console.log(err);
       });
   };
 
+  const handleInsulin = (value, item) => {
+    dispatch({
+      type: NEW_ENTER_INSULIN,
+      payload: { item, value },
+    });
+  };
+
   const deleteInsulin = async (insulin) => {
-    //console.log(insulin);
+    console.log(insulin);
     let id = await getId();
     axios
       .delete(`${host}/api/insulin/${id}`)
       .then(() => {
         dispatch({
-          type: DELETE_INSULIN,
+          type: SUCCESS_DELETE_INSULIN,
           payload: insulin,
         });
       })
@@ -528,6 +548,7 @@ export const AppProvider = ({ children }) => {
         toggleLoginForm,
         toggleShowForm,
         showEnterNewItem,
+        handleInsulin,
         login,
         signup,
         logout,

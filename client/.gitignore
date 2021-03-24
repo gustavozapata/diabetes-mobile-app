@@ -1,6 +1,6 @@
 # GZ
 src/config/local.js
-/Local
+Local/
 
 node_modules/**/*
 .expo/*

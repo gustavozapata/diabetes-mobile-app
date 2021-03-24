@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const InsulinSchema = mongoose.Schema({
   insulin: {
     type: String,
-    required: [true, "You must enter an insulin"],
+    required: [true, "You must enter a type of insulin"],
   },
-  values: {
-    type: Object,
+  dosage: {
+    type: String,
   },
   date: {
     type: Date,

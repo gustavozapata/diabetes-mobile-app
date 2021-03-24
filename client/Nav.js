@@ -4,6 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import HomeScreen from "./src/screens/HomeScreen";
 import EnterMealScreen from "./src/screens/EnterMealScreen";
 import InsulinScreen from "./src/screens/InsulinScreen";
+import InsulinScreenTavo from "./src/screens/InsulinScreenTavo";
 import StartScreen from "./src/screens/StartScreen";
 import AppContext from "./src/context/AppContext";
 
@@ -38,7 +39,7 @@ const Nav = () => {
       {!isGuest && <Tab.Screen name="Dashboard" component={HomeScreen} />}
       <Tab.Screen name="Meal" component={EnterMealScreen} />
       {!isGuest ? (
-        <Tab.Screen name="Insulin" component={InsulinScreen} />
+        <Tab.Screen name="Insulin" component={InsulinScreenTavo} />
       ) : (
         <Tab.Screen name="Access">
           {(props) => <StartScreen {...props} access={true} />}
