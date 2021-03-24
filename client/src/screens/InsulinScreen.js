@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { View, Text, Button } from "react-native";
+import { View, Text, Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import InsulinEnterComponent from "../components/InsulinEnter";
@@ -9,6 +9,10 @@ import InsulinDeleteComponent from "../components/InsulinDelete";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Day from "../model/Day";
+import Insulin from "../model/Insulin";
+import styles from "../styles";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import AppContext from "../context/AppContext";
 
 const Stack = createStackNavigator();
 
@@ -22,47 +26,35 @@ const InsulinScreen = () => {
   );
 };
 
-const InsulinMainComponent = ({ navigation, route }) => {
-  const [days, setDay] = useState([]);
-  useEffect(() => {
-    async () =>{
-      try{
-        let d = JSON.parse(AsyncStorage.getItem("Days"));
-        if(d == null){
-          let today = new Day();
-          await AsyncStorage.setItem("Days",JSON.stringify(today));
-          setDay([today]);
-        }
-        setDay(d);
-        currentDay = days.length - 1;
-      } catch(error){
-        console.log(error);
-      }
-    }
-    /*
-    for (let i = 0; i < days[currentDay].Insulin.length; i++) {
-      const element = days.Insulin[i];
-      insulinItems.push(<View>
-        <Text>{days.Insulin[i].Datetime}</Text><Text>{days.Insulin[i].type} {days.Insulin[i].amount}</Text><Button onPress={() => { navigation.navigate("InsulinDelete", { day: days, i: element }); }}><Ionicons name="trash" /></Button>
-      </View>);
-    }*/
-  });
 
-  var currentDay = 0;
-  // Get all items in a day
+const InsulinMainComponent = ({ navigation }) => {
+  const { insulin,getInsulin } = useContext(AppContext);
   var insulinItems = [];
-  
-
-  return (
-    <View>
-      <Text>Main screen</Text>
-      <Button title="" onPress={() => { navigation.navigate("InsulinEnter", { day: days }) }} />
+  useEffect(()=>{
+    getInsulin();
+    for (let i = 0; i < insulin.length; i++) {
+      const element = insulin[i];
+      insulinItems.push(
       <View>
-        {insulinItems == [] ? <Text>No insulin to show</Text> : insulinItems}
-        <Button title="" onPress={() => { navigation.navigate("InsulinDelete", { day: days, i: days.Insulin }) }} />
+        <Text>{element.Datetime}</Text>
+        <Text>{element.type} {insulin[i].amount}</Text>
+        <Button onPress={() => { navigation.navigate("InsulinDelete", { i: element }); }}><Ionicons name="trash" /></Button>
+      </View>);
+    }
+  });
+  
+  return (
+    <View style={styles.wrapper}>
+      <Text style={styles.title}>Main screen</Text>
+      <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("InsulinEnter") }}>
+        <Text style={styles.buttonLabel}>Add new Insulin item</Text>
+      </TouchableOpacity>
+      <View>
+        {insulin == [] ? <Text>No insulin to show</Text> : insulinItems}
+        <TouchableOpacity title="Delete insulin" onPress={() => { navigation.navigate("InsulinDelete", { day: days, i: insulin }) }}>
+          <Image source={require("../../assets/trash.png")} style={styles.smallImage}/>
+        </TouchableOpacity>
       </View>
-      <Button title="<-1 week" onPress={() => { }} />
-      <Button title="1 week->" onPress={() => { }} />
       <Text>Insulin graph goes here</Text>
     </View>);
 };

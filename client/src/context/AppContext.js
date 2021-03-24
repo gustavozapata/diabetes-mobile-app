@@ -20,6 +20,7 @@ import {
   TOGGLE_FOOD_FORM,
   SUCCESS_ENTER_INSULIN,
   SUCCESS_DELETE_INSULIN,
+  GET_INSULIN
 } from "../helpers/types";
 import axios from "axios";
 import { host } from "../config/local";
@@ -199,24 +200,25 @@ const diaryReducer = (state, action) => {
         ...state,
         serverMsg: action.payload,
       };
-    case NEW_ENTER_INSULIN:
+    case ENTER_INSULIN:
       return{
         ...state,
-
-      }
+        insulin:{
+          Datetime:action.payload.time,
+          Amount:action.payload.dosage,
+          Type:action.payload.type
+        }
+      };
     case DELETE_INSULIN:
       return{
         ...state,
 
       };
-    case SUCCESS_ENTER_INSULIN:
-      return{
+    case GET_INSULIN:
+      return {
         ...state,
-      };
-    case SUCCESS_DELETE_INSULIN:
-      return{
-        ...state,
-      };
+        insulin
+      }
     default:
       return state;
   }
@@ -461,11 +463,13 @@ export const AppProvider = ({ children }) => {
   };
 
   const enterInsulin = async (insulin) =>{
+    console.log("insulin data in context");
+    console.log("insulin is ");
     console.log(insulin);
     let id = await getId();
     axios.post(`${host}/api/insulin/${id}`,{insulin}).then(() =>{
       dispatch({
-        type: SUCCESS_ENTER_INSULIN,
+        type: ENTER_INSULIN,
         payload:insulin
       });
     }).catch((err)=>{
@@ -481,7 +485,7 @@ export const AppProvider = ({ children }) => {
     let id = await getId();
     axios.delete(`${host}/api/insulin/${id}`).then(() =>{
       dispatch({
-        type: SUCCESS_DELETE_INSULIN,
+        type: DELETE_INSULIN,
         payload:insulin
       });
     }).catch((err)=>{
@@ -489,7 +493,16 @@ export const AppProvider = ({ children }) => {
         type: SERVER_MSG,
         payload:"Error occured while submitting insulin"
       })
-    })
+    });
+  }
+  const getInsulin = async () => {
+    let _id = await getId();
+    axios.get(`${host}/api/insulin/${_id}`).then((res) => {
+      dispatch({
+        type: GET_INSULIN,
+        payload: { meals: res.data.data },
+      });
+    });
   }
 
   //The state and the actions are passed to the highest level component App.js
@@ -514,7 +527,8 @@ export const AppProvider = ({ children }) => {
         goBackToStart,
         enterMeal,
         enterInsulin,
-        deleteInsulin
+        deleteInsulin,
+        getInsulin
       }}
     >
       {children}
