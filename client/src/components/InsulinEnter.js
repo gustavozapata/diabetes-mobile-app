@@ -5,47 +5,58 @@ import {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  Button
+  Button,
+  StatusBar,
+  TouchableOpacity
 } from "react-native";
 import AppContext from "../context/AppContext";
+import styles from "../styles";
 
 import Insulin from "../model/Insulin";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/*
 const storeInsulin = async(value) => {
   try{
     const jsonObject = JSON.stringify(value);
     await AsyncStorage.setItem("@Insulin",jsonObject);
   } catch(e){ }
-}
+}*/
 
-const InsulinEnterComponent = ({navigation,route}) => {
-  const [time,setTime] = useState(new Date());
-  const [insulinType,setInsulinType] = useState("");
+const InsulinEnterComponent = ({navigation}) => {
+  const {enterInsulin} = useContext(AppContext);
+
+  const [time,setTime] = useState("");
   const [dosage,setDosage] = useState(0);
+  const [insulinType,setInsulinType] = useState("");
   return (
     <View>
       <StatusBar style="auto" />
-      <Text>Enter Insulin</Text>
+      <Text style={styles.title}>Enter Insulin</Text>
       <View>
-        <Text>Time</Text>
-        <TextInput onChangeText={(v) => { setTime(v);}}/>
+        <Text style={styles.label}>Time</Text>
+        <TextInput style={styles.input} onChangeText={(v) => { setTime(v);}}/>
       </View>
       <View>
-        <Text>Insulin Type</Text>
-        <TextInput onChangeText={(v) => { setInsulinType(v);}}/>
+        <Text style={styles.label}>Insulin Type</Text>
+        <TextInput style={styles.biginput} onChangeText={(v) => { setInsulinType(v);}}/>
       </View>
       <View>
-        <Text>Dosage (Amount)</Text>
-        <TextInput onChangeText={(v) => { setDosage(v);}}/>
+        <Text style={styles.label}>Dosage (Amount)</Text>
+        <TextInput style={styles.biginput} onChangeText={(v) => { setDosage(v);}}/>
       </View>
-      <Button title="Add new Insulin" onPress={() => {
-        let i = new Insulin(time,insulinType,dosage);
-        let d = route.params.day;
-        d.addInsulin(i);
+      <TouchableOpacity style={styles.button} onPress={() => {
+        let i = {
+          time:time,
+          dosage:dosage,
+          type:insulinType
+        };
+        enterInsulin(i);
         navigation.goBack();
-        }}/>
+        }}>
+        <Text style={styles.buttonLabel}>Add new Insulin</Text>
+      </TouchableOpacity>
     </View>
   );
 }
