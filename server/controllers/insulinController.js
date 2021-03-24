@@ -1,9 +1,9 @@
 const User = require("../models/userModel");
 
 exports.getInsulin = async (req, res, next) => {
+  console.log("hello from insulin controller (server)");
   try {
     const insulin = await User.findOne({ _id: req.params.id }).select("insulin");
-
     res.status(200).json({
       status: "success getting insulin",
       data: insulin.insulin,
@@ -43,8 +43,9 @@ exports.deleteInsulin = async (req,res,next) =>{
     ).select("+password");
 
     res.status(200).json({
-      status: "insulin deleted"
-    })
+      status: "insulin deleted",
+      data: deleteInsulin
+    });
   } catch (err) {
     console.log("Diabetes App Error: ", err);
   }

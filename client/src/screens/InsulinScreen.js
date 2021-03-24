@@ -28,41 +28,43 @@ const InsulinScreen = () => {
 
 
 const InsulinMainComponent = ({ navigation,route }) => {
-  //const { state:insulin,getInsulin } = useContext(AppContext);
-  let insulin = [
-    {Datetime:"23/03/2021", type:"fast acting", amount:10},
-    {Datetime:"24/03/2021", type:"fast acting", amount:10},
-    {Datetime:"24/03/2021", type:"slow acting", amount:40},
-  ];
-  let insulinItems = insulin.map((i) => 
+  const { state:{insulin},getInsulin,enterInsulin,deleteInsulin } = useContext(AppContext);
+  //getInsulin();
+  useEffect(()=>{
+    const unsubscribe = navigation.addListener("focus", () => {
+      //console.log("now focussed");
+      getInsulin();
+    });
+    
+    /*
+    if(route.params?.delete == true){
+      //insulin.splice(route.params?.insulin);
+      deleteInsulin()
+      console.log("deleted "+route.params?.insulin.Datetime+" - "+route.params?.insulin.type + " - " +route.params?.insulin.amount);
+    }*/
+    return unsubscribe;
+  },[navigation]);
+
+  console.log(insulin);
+  /*var insulinItems = insulin.map((i) => 
   <View style={styles.insulinItem}>
     <Text>{i.Datetime} - {i.type} - {i.amount}</Text>
     <TouchableOpacity onPress={() => { navigation.navigate("InsulinDelete", { i: i }); }}>
       <Image source={require("../../assets/trash.png")} style={styles.smallImage}/>
     </TouchableOpacity>
-  </View>
-  );
-  useEffect(()=>{
-    if(route.params?.delete == true){
-      insulin.splice(route.params?.insulin);
-    }
-  });
-  
-  
+  </View>);*/
+  var insulinItems = [];
+
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Main screen</Text>
-      <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("InsulinEnter") }}>
+      <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("InsulinEnter",{enterInsulin:enterInsulin}) }}>
         <Text style={styles.buttonLabel}>Add new Insulin item</Text>
       </TouchableOpacity>
       <View>
-        {/*insulinItems == [] ? insulinItems : <Text>No insulin to show</Text>*/}
         {insulinItems}
-        <TouchableOpacity title="Delete insulin" onPress={() => { navigation.navigate("InsulinDelete", { day: days, i: insulin }) }}>
-          
-        </TouchableOpacity>
       </View>
-      <Text>Insulin graph goes here</Text>
+      {/*<Text>Insulin graph goes here</Text>*/}
     </View>);
 };
 

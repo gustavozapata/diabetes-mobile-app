@@ -18,7 +18,9 @@ import {
   HANDLE_FOOD_ITEM,
   HANDLE_FOOD_QUANTITY,
   TOGGLE_FOOD_FORM,
-  GET_INSULIN
+  GET_INSULIN,
+  ENTER_INSULIN,
+  DELETE_INSULIN
 } from "../helpers/types";
 import axios from "axios";
 import { host } from "../config/local";
@@ -111,6 +113,7 @@ const diaryReducer = (state, action) => {
         isLogged: action.payload.isLogged,
         isGuest: false,
         meals: [...action.payload.data.meals],
+        insulins:[...action.payload.data.insulins],
         email: "",
         password: "",
         serverMsg: "",
@@ -215,7 +218,7 @@ const diaryReducer = (state, action) => {
     case GET_INSULIN:
       return {
         ...state,
-        insulin
+        insulins:payload.action.insulin
       }
     default:
       return state;
@@ -267,6 +270,7 @@ const initialState = {
   showFoodForm: false,
   hasJustEnteredMeal: false,
   meals: [],
+  insulins: [],
   calendarDates: {},
   foodQuantity: 1,
   foodQuantityManual: 1,
@@ -461,8 +465,6 @@ export const AppProvider = ({ children }) => {
   };
 
   const enterInsulin = async (insulin) =>{
-    console.log("insulin data in context");
-    console.log("insulin is ");
     console.log(insulin);
     let id = await getId();
     axios.post(`${host}/api/insulin/${id}`,{insulin}).then(() =>{
@@ -474,12 +476,12 @@ export const AppProvider = ({ children }) => {
       dispatch({
         type: SERVER_MSG,
         payload:"Error occured while submitting insulin"
-      })
-    })
+      });
+    });
   }
 
   const deleteInsulin = async (insulin) =>{
-    console.log(insulin);
+    //console.log(insulin);
     let id = await getId();
     axios.delete(`${host}/api/insulin/${id}`).then(() =>{
       dispatch({
@@ -492,11 +494,12 @@ export const AppProvider = ({ children }) => {
         payload:"Error occured while submitting insulin"
       })
     });
-  }
+  };
   const getInsulin = async () => {
+    //console.log("hello from getinsulin");
     let _id = await getId();
+
     axios.get(`${host}/api/insulin/${_id}`).then((response) => {
-      console.log("hello");
       dispatch({
         type: GET_INSULIN,
         insulin: response.data.insulin
