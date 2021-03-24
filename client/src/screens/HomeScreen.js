@@ -7,8 +7,6 @@ import {
   ScrollView,
   StyleSheet,
   KeyboardAvoidingView,
-  Touchable,
-  Platform
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
@@ -21,7 +19,6 @@ import AppContext from "../context/AppContext";
 import ViewHeader from "../components/ViewHeader";
 import ProfileFragment from "./ProfileFragment";
 import CalendarItemSelected from "../components/CalendarItemSelected";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Stack = createStackNavigator();
 
@@ -43,8 +40,8 @@ const MainScreen = ({ navigation }) => {
     logout,
     getData,
   } = useContext(AppContext);
-
   // https://reactnavigation.org/docs/function-after-focusing-screen/
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       getData();
@@ -52,11 +49,10 @@ const MainScreen = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  /*
   const logoff = () => {
     logout();
     navigation.navigate("Start");
-  };*/
+  };
 
   return (
     <KeyboardAvoidingView
@@ -135,9 +131,7 @@ const MainScreen = ({ navigation }) => {
             )
           )}
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => {logout();}}>
-          <Text style={styles.buttonLabel}>Log off</Text>
-        </TouchableOpacity>
+        <ProfileFragment logoff={logoff} />
       </ScrollView>
     </KeyboardAvoidingView>
   );
