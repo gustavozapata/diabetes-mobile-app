@@ -18,8 +18,6 @@ import {
   HANDLE_FOOD_ITEM,
   HANDLE_FOOD_QUANTITY,
   TOGGLE_FOOD_FORM,
-  SUCCESS_ENTER_INSULIN,
-  SUCCESS_DELETE_INSULIN,
   GET_INSULIN
 } from "../helpers/types";
 import axios from "axios";
@@ -205,7 +203,7 @@ const diaryReducer = (state, action) => {
         ...state,
         insulin:{
           Datetime:action.payload.time,
-          Amount:action.payload.dosage,
+          Amount:action.payload.amount,
           Type:action.payload.type
         }
       };
@@ -497,10 +495,11 @@ export const AppProvider = ({ children }) => {
   }
   const getInsulin = async () => {
     let _id = await getId();
-    axios.get(`${host}/api/insulin/${_id}`).then((res) => {
+    axios.get(`${host}/api/insulin/${_id}`).then((response) => {
+      console.log("hello");
       dispatch({
         type: GET_INSULIN,
-        payload: { meals: res.data.data },
+        insulin: response.data.insulin
       });
     });
   }
