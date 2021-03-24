@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer, useContext } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image,Button } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import InsulinEnterComponent from "../components/InsulinEnter";
@@ -27,35 +27,44 @@ const InsulinScreen = () => {
 };
 
 
-const InsulinMainComponent = ({ navigation }) => {
-  const { insulin,getInsulin } = useContext(AppContext);
-  var insulinItems = [];
+const InsulinMainComponent = ({ navigation,route }) => {
+  const { state:{insulin},getInsulin,enterInsulin,deleteInsulin } = useContext(AppContext);
+  //getInsulin();
   useEffect(()=>{
-    getInsulin();
-    for (let i = 0; i < insulin.length; i++) {
-      const element = insulin[i];
-      insulinItems.push(
-      <View>
-        <Text>{element.Datetime}</Text>
-        <Text>{element.type} {insulin[i].amount}</Text>
-        <Button onPress={() => { navigation.navigate("InsulinDelete", { i: element }); }}><Ionicons name="trash" /></Button>
-      </View>);
-    }
-  });
-  
+    const unsubscribe = navigation.addListener("focus", () => {
+      //console.log("now focussed");
+      getInsulin();
+    });
+    
+    /*
+    if(route.params?.delete == true){
+      //insulin.splice(route.params?.insulin);
+      deleteInsulin()
+      console.log("deleted "+route.params?.insulin.Datetime+" - "+route.params?.insulin.type + " - " +route.params?.insulin.amount);
+    }*/
+    return unsubscribe;
+  },[navigation]);
+
+  console.log(insulin);
+  /*var insulinItems = insulin.map((i) => 
+  <View style={styles.insulinItem}>
+    <Text>{i.Datetime} - {i.type} - {i.amount}</Text>
+    <TouchableOpacity onPress={() => { navigation.navigate("InsulinDelete", { i: i }); }}>
+      <Image source={require("../../assets/trash.png")} style={styles.smallImage}/>
+    </TouchableOpacity>
+  </View>);*/
+  var insulinItems = [];
+
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Main screen</Text>
-      <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("InsulinEnter") }}>
+      <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("InsulinEnter",{enterInsulin:enterInsulin}) }}>
         <Text style={styles.buttonLabel}>Add new Insulin item</Text>
       </TouchableOpacity>
       <View>
-        {insulin == [] ? <Text>No insulin to show</Text> : insulinItems}
-        <TouchableOpacity title="Delete insulin" onPress={() => { navigation.navigate("InsulinDelete", { day: days, i: insulin }) }}>
-          <Image source={require("../../assets/trash.png")} style={styles.smallImage}/>
-        </TouchableOpacity>
+        {insulinItems}
       </View>
-      <Text>Insulin graph goes here</Text>
+      {/*<Text>Insulin graph goes here</Text>*/}
     </View>);
 };
 

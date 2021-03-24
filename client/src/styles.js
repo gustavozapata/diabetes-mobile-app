@@ -72,6 +72,10 @@ const styles = StyleSheet.create({
     marginLeft: 6,
     fontSize: 17,
   },
+  insulinItem:{
+    display:"flex",
+    flexDirection:"row"
+  },
   //label for food input
   foodInput: {
     width: 280,
@@ -99,8 +103,8 @@ const styles = StyleSheet.create({
     height: 38,
   },
   smallImage:{
-    width:30,
-    height:30
+    width:20,
+    height:20
   },
   switchForm: {
     paddingVertical: 10,

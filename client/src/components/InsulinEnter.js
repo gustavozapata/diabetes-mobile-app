@@ -12,8 +12,6 @@ import {
 import AppContext from "../context/AppContext";
 import styles from "../styles";
 
-import Insulin from "../model/Insulin";
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /*
@@ -28,7 +26,7 @@ const InsulinEnterComponent = ({navigation}) => {
   const {enterInsulin} = useContext(AppContext);
 
   const [time,setTime] = useState("");
-  const [dosage,setDosage] = useState(0);
+  const [amount,setAmount] = useState(0);
   const [insulinType,setInsulinType] = useState("");
   return (
     <View>
@@ -40,16 +38,16 @@ const InsulinEnterComponent = ({navigation}) => {
       </View>
       <View>
         <Text style={styles.label}>Insulin Type</Text>
-        <TextInput style={styles.biginput} onChangeText={(v) => { setInsulinType(v);}}/>
+        <TextInput style={styles.input} onChangeText={(v) => { setInsulinType(v);}}/>
       </View>
       <View>
         <Text style={styles.label}>Dosage (Amount)</Text>
-        <TextInput style={styles.biginput} onChangeText={(v) => { setDosage(v);}}/>
+        <TextInput style={styles.input} onChangeText={(v) => { setAmount(v);}}/>
       </View>
       <TouchableOpacity style={styles.button} onPress={() => {
         let i = {
           time:time,
-          dosage:dosage,
+          amount:amount,
           type:insulinType
         };
         enterInsulin(i);
