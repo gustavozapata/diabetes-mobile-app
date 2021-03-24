@@ -8,6 +8,8 @@ import {
   TouchableHighlight,
 } from "react-native";
 
+import styles from "../styles";
+
 const ProfileComponent = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,27 +33,27 @@ const ProfileComponent = ({ navigation, route }) => {
     <View style={{ marginTop: 50 }}>
       <Text>Profile</Text>
       <View>
-        <Text>Email</Text>
+        <Text style={styles.label}>Email</Text>
         <Text>{email}</Text>
       </View>
       <View>
-        <Text>Password</Text>
+        <Text style={styles.label}>Password</Text>
         <Text>{password}</Text>
       </View>
       <View>
-        <Text>First name</Text>
+        <Text style={styles.label}>First name</Text>
         <Text>{firstName}</Text>
       </View>
       <View>
-        <Text>Last name</Text>
+        <Text style={styles.label}>Last name</Text>
         <Text>{lastName}</Text>
       </View>
       <View>
-        <Text>Weight</Text>
+        <Text style={styles.label}>Weight</Text>
         <Text>{weight}</Text>
       </View>
       <View>
-        <Text>Height</Text>
+        <Text style={styles.label}>Height</Text>
         <Text>{height}</Text>
       </View>
       <Button

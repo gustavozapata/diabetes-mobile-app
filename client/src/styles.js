@@ -98,6 +98,10 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 38,
   },
+  smallImage:{
+    width:30,
+    height:30
+  },
   switchForm: {
     paddingVertical: 10,
     fontSize: 14,
