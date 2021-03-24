@@ -75,7 +75,6 @@ const constructInsulinDates = (insulin, mealDates) => {
     insulin.map((date, id) => {
       let shortDate = date.date.split("T")[0];
       if (mealDates.hasOwnProperty(shortDate)) {
-        console.log("date already in");
         mealDates = {
           ...mealDates,
           [shortDate]: {
