@@ -23,14 +23,14 @@ const addNutrients = (date, mealRecorded, nutrient) => {
     : "-";
 };
 
-exports.convertDateToCalendarDate = (dates) => {
+exports.convertDateToCalendarDate = (entries) => {
+  const dates = entries.meals;
   let calendarDates = {};
   let markedDates = {};
   let mealInfo = {};
 
   if (dates.length > 0) {
     const meal = { key: "meal", color: "#05666C" };
-    // const insulin = { key: "insulin", color: "orange" };
     dates.map((date, id) => {
       let shortDate = date.date.split("T")[0];
 
@@ -56,13 +56,41 @@ exports.convertDateToCalendarDate = (dates) => {
         [shortDate]: {
           id,
           dots: [meal],
-          //   selected: ["currentDate"] === shortDate ? true : false,
         },
       };
     });
   }
   calendarDates.markedDates = markedDates;
   calendarDates.mealInfo = mealInfo;
-  // console.log(mealInfo);
+  calendarDates.markedDates = constructInsulinDates(
+    entries.insulin,
+    markedDates
+  );
   return calendarDates;
+};
+
+const constructInsulinDates = (insulin, mealDates) => {
+  if (insulin.length > 0) {
+    const insulinDot = { key: "insulin", color: "orange" };
+    insulin.map((date, id) => {
+      let shortDate = date.date.split("T")[0];
+      if (mealDates.hasOwnProperty(shortDate)) {
+        console.log("date already in");
+        mealDates = {
+          ...mealDates,
+          [shortDate]: {
+            dots: [...mealDates[shortDate].dots, insulinDot],
+          },
+        };
+      } else {
+        mealDates = {
+          ...mealDates,
+          [shortDate]: {
+            dots: [insulinDot],
+          },
+        };
+      }
+    });
+  }
+  return mealDates;
 };

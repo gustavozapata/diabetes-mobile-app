@@ -74,34 +74,6 @@ const MainScreen = ({ navigation }) => {
             onDayPress={(day) => {
               setCurentDate(day.dateString);
             }}
-            // markedDates={{
-            //   "2021-03-13": {
-            //     dots: [meal, insulin],
-            //     selected: currentDate === "2021-03-13" ? true : false,
-            //   },
-            //   "2021-03-14": {
-            //     dots: [meal],
-            //     selected: currentDate === "2021-03-14" ? true : false,
-            //   },
-            //   "2021-03-15": {
-            //     dots: [insulin],
-            //     selected: currentDate === "2021-03-15" ? true : false,
-            //   },
-            //   "2021-03-16": {
-            //     dots: [insulin],
-            //     selected: currentDate === "2021-03-16" ? true : false,
-            //   },
-            //   "2021-03-17": {
-            //     dots: [meal, insulin],
-            //     selected: currentDate === "2021-03-17" ? true : false,
-            //     // selectedColor: "#05666C",
-            //   },
-            //   "2021-03-19": {
-            //     marked: true,
-            //     selected: currentDate === "2021-03-19" ? true : false,
-            //     dots: [meal],
-            //   },
-            // }}
             markedDates={calendarDates.markedDates}
             markingType={"multi-dot"}
           />
