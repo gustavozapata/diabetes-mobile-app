@@ -2,14 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
-  StatusBar,
-  Button,
   ScrollView,
   StyleSheet,
   KeyboardAvoidingView,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import { Calendar } from "react-native-calendars";
 
 import ProfileComponent from "../components/Profile";
 import ProfileEditComponent from "../components/ProfileEdit";
@@ -40,8 +38,8 @@ const MainScreen = ({ navigation }) => {
     logout,
     getData,
   } = useContext(AppContext);
-  // https://reactnavigation.org/docs/function-after-focusing-screen/
 
+  // https://reactnavigation.org/docs/function-after-focusing-screen/
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       getData();
