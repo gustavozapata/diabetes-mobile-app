@@ -20,7 +20,7 @@ const InsulinScreen = () => {
   return (
     <Stack.Navigator initialRouteName="Insulin Menu">
       <Stack.Screen name="Insulin Menu" component={InsulinMainComponent} />
-      <Stack.Screen name="InsulinEnter" component={InsulinEnterComponent} />
+      <Stack.Screen name="Insulin Enter" component={InsulinEnterComponent} />
       <Stack.Screen name="InsulinDelete" component={InsulinDeleteComponent} />
     </Stack.Navigator>
   );
@@ -46,7 +46,7 @@ const InsulinMainComponent = ({ navigation }) => {
   },[navigation]);
   var insulinItems = insulin.map((i) => 
   <View style={styles.insulinItem}>
-    <Text>{i.date} - {i.insulin} - {i.dosage}</Text>
+    <Text>{i.date} - {i.insulin} - {i.dosage} mg/dl</Text>
     {/*<TouchableOpacity onPress={() => { 
       //navigation.navigate("InsulinDelete", { id: i._id });
       //deleteInsulin(i);  
@@ -59,7 +59,7 @@ const InsulinMainComponent = ({ navigation }) => {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Main screen</Text>
-      <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("InsulinEnter",{enterInsulin:enterInsulin}) }}>
+      <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Insulin Enter",{enterInsulin:enterInsulin}) }}>
         <Text style={styles.buttonLabel}>Add new Insulin item</Text>
       </TouchableOpacity>
       <View>

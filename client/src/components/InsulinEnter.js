@@ -37,7 +37,7 @@ const InsulinEnterComponent = ({navigation}) => {
       </View>*/}
       <View>
         <Text style={styles.label}>Insulin Type</Text>
-        <TextInput style={styles.input} onChangeText={(v) => handleInsulin(v, "dosage")}/>
+        <TextInput style={styles.inputBig} onChangeText={(v) => handleInsulin(v, "dosage")}/>
       </View>
       <View>
         <Text style={styles.label}>Dosage (Amount)</Text>
