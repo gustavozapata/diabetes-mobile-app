@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
+const Insulin = require("../models/insulinModel");
 
 exports.getInsulin = async (req, res, next) => {
-  console.log("hello from insulin controller (server)");
   try {
     const insulin = await User.findOne({ _id: req.params.id }).select("insulin");
     res.status(200).json({
@@ -21,7 +21,7 @@ exports.addInsulin = async (req, res, next) => {
         $push: { insulin: req.body.insulin },
       },
       { new: true }
-    ).select("+password");
+    ).select("insulin");
 
     res.status(201).json({
       status: "success posting insulin",
@@ -35,12 +35,12 @@ exports.addInsulin = async (req, res, next) => {
 exports.deleteInsulin = async (req,res,next) =>{
   try{
     const deleteInsulin = await User.findOneAndUpdate(
-      { _id: req.params.id},
+      { _id: req.params.id },
       {
-        $pop: {insulin: req.body.insulin},
+        $pull: { insulin: req.body.insulin },
       },
-      {new: true}
-    ).select("+password");
+      { new: true }
+    ).select("insulin");
 
     res.status(200).json({
       status: "insulin deleted",
