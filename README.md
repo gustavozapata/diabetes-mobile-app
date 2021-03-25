@@ -7,7 +7,8 @@ A mobile application for diabetic type 1 users to keep a record of the food and 
 ![Alt text](client/assets/app.gif)
 
 ##### Live version
-https://expo.io/@gustavozapata/projects/diabetes-app
+https://expo.io/@gustavozapata/projects/diabetes-app  
+Scan the QR code with your phone and make sure expo app is installed
 
 ### Tech Stack
 
