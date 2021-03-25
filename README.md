@@ -6,6 +6,9 @@ A mobile application for diabetic type 1 users to keep a record of the food and 
 
 ![Alt text](client/assets/app.gif)
 
+##### Live version
+https://expo.io/@gustavozapata/projects/diabetes-app
+
 ### Tech Stack
 
 - JavaScript
@@ -31,6 +34,10 @@ A mobile application for diabetic type 1 users to keep a record of the food and 
 - npm install
 - npm start
 
+To make requests from client to server: create a file named 'local.js' with a single line `export const host = "http://<IP_ADDRESS>:4000`  
+Make sure you add the IP address of your computer
+
+
 ### Server app
 
 #### Dependencies
@@ -46,7 +53,8 @@ A mobile application for diabetic type 1 users to keep a record of the food and 
 - npm install
 - npm start
 
-DB_URI is an environment variable used by the server.js file. DB_URI needs to be replaced by your MongoDB database URI. Make sure you create a file .env and add the URI in here: DB_URI=your-db-uri
+DB_URI is an environment variable used by the server.js file. DB_URI needs to be replaced by your MongoDB database URI.  
+Make sure you create a file .env and add the URI in here: DB_URI=your-db-uri
 
 ### APIs
 
