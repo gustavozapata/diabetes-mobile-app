@@ -12,7 +12,7 @@ const addValuesFromSameDate = (date, mealRecorded) => {
 
 //add nutrients from all meals taken on the same day
 const addNutrients = (date, mealRecorded, nutrient) => {
-  if (date.nutrients[nutrient]) {
+  if (date.nutrients[nutrient] && mealRecorded.meal.nutrients[nutrient]) {
     return (
       parseFloat(date.nutrients[nutrient].split(" ")[0]) +
       parseFloat(mealRecorded.meal.nutrients[nutrient].split(" ")[0])

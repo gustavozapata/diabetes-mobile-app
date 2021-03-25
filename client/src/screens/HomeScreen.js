@@ -92,26 +92,20 @@ const MainScreen = ({ navigation }) => {
             <Text>Insulin</Text>
           </View>
 
-          {calendarDates.mealInfo && calendarDates.mealInfo[currentDate] ? (
+          {calendarDates.mealInfo && calendarDates.mealInfo[currentDate] && (
             <CalendarItemSelected currentDate={currentDate} />
-          ) : (
-            currentDate !== "" && (
-              <Text style={{ textAlign: "center", marginTop: 50 }}>
-                No data recorded
-              </Text>
-            )
           )}
 
           {calendarDates.insulinInfo &&
-          calendarDates.insulinInfo[currentDate] ? (
-            <InsulinCalendarSelected currentDate={currentDate} />
-          ) : (
-            currentDate !== "" && (
-              <Text style={{ textAlign: "center", marginTop: 50 }}>
-                No data recorded
-              </Text>
-            )
-          )}
+            calendarDates.insulinInfo[currentDate] && (
+              <InsulinCalendarSelected currentDate={currentDate} />
+            )}
+
+          {/* {currentDate !== "" && (
+            <Text style={{ textAlign: "center", marginTop: 50 }}>
+              No data recorded
+            </Text>
+          )} */}
         </View>
         <ProfileFragment logoff={logoff} />
       </ScrollView>
