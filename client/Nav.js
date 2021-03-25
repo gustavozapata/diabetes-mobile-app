@@ -39,7 +39,7 @@ const Nav = () => {
       {!isGuest && <Tab.Screen name="Dashboard" component={HomeScreen} />}
       <Tab.Screen name="Meal" component={EnterMealScreen} />
       {!isGuest ? (
-        <Tab.Screen name="Insulin" component={InsulinScreenTavo} />
+        <Tab.Screen name="Insulin" component={InsulinScreen} />
       ) : (
         <Tab.Screen name="Access">
           {(props) => <StartScreen {...props} access={true} />}

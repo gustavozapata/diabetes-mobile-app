@@ -9,21 +9,29 @@ import AppContext from "../context/AppContext";
 import styles from "../styles";
 
 const InsulinDeleteComponent = ({navigation, route}) => {
+  const { state:{insulin},getInsulin,deleteInsulin } = useContext(AppContext);
+  getInsulin();
+  var i;
+  for (const ins of insulin) {
+    if(ins._id == route.params.id){
+      i = ins;
+    }
+  }
   return (
     <View>
       <StatusBar style="auto" />
       <Text style={styles.title}>Do you want to delete this record?</Text>
       <View>
         <Text style={styles.label}>Time</Text>
-        <Text>{route.params.i.Datetime}</Text>
+        <Text>{i.date}</Text>
       </View>
       <View>
         <Text style={styles.label}>Insulin Type</Text>
-        <Text>{route.params.i.type}</Text>
+        <Text>{i.insulin}</Text>
       </View>
       <View>
         <Text style={styles.label}>Dosage (Amount)</Text>
-        <Text>{route.params.i.amount}</Text>
+        <Text>{i.dosage}</Text>
       </View>
       <TouchableOpacity style={styles.button} onPress={() => { 
         navigation.goBack(); 
@@ -33,7 +41,8 @@ const InsulinDeleteComponent = ({navigation, route}) => {
       <TouchableOpacity onPress={() => {
         //let d = route.params.day;
         //d.removeInsulin(route.params.i);
-        navigation.navigate("Insulin",{delete:true, insulin:route.params.i});
+        deleteInsulin(i);
+        navigation.goBack();
         }}>
           <Text style={styles.buttonLabel}>Confirm and delete</Text>
         </TouchableOpacity>

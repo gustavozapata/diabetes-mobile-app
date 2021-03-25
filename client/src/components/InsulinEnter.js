@@ -23,34 +23,28 @@ const storeInsulin = async(value) => {
 }*/
 
 const InsulinEnterComponent = ({navigation}) => {
-  const {enterInsulin} = useContext(AppContext);
-
-  const [time,setTime] = useState("");
-  const [amount,setAmount] = useState(0);
-  const [insulinType,setInsulinType] = useState("");
+  const {state: { insulinItem },
+  handleInsulin,
+  enterInsulin,
+} = useContext(AppContext);
   return (
     <View>
       <StatusBar style="auto" />
       <Text style={styles.title}>Enter Insulin</Text>
-      <View>
+      {/*<View>
         <Text style={styles.label}>Time</Text>
-        <TextInput style={styles.input} onChangeText={(v) => { setTime(v);}}/>
-      </View>
+        <TextInput style={styles.input} onChangeText={(v) => handleInsulin(v, "date")}/>
+      </View>*/}
       <View>
         <Text style={styles.label}>Insulin Type</Text>
-        <TextInput style={styles.input} onChangeText={(v) => { setInsulinType(v);}}/>
+        <TextInput style={styles.input} onChangeText={(v) => handleInsulin(v, "dosage")}/>
       </View>
       <View>
         <Text style={styles.label}>Dosage (Amount)</Text>
-        <TextInput style={styles.input} onChangeText={(v) => { setAmount(v);}}/>
+        <TextInput style={styles.input} onChangeText={(v) => handleInsulin(v, "insulin")}/>
       </View>
       <TouchableOpacity style={styles.button} onPress={() => {
-        let i = {
-          time:time,
-          amount:amount,
-          type:insulinType
-        };
-        enterInsulin(i);
+        enterInsulin(insulinItem);
         navigation.goBack();
         }}>
         <Text style={styles.buttonLabel}>Add new Insulin</Text>

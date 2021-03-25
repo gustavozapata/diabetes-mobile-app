@@ -22,7 +22,6 @@ import {
   ENTER_INSULIN,
   DELETE_INSULIN,
   SUCCESS_ENTER_INSULIN,
-  SUCCESS_DELETE_INSULIN,
   GET_INSULIN,
 } from "../helpers/types";
 import axios from "axios";
@@ -232,11 +231,12 @@ const diaryReducer = (state, action) => {
     case DELETE_INSULIN:
       return {
         ...state,
+        insulin: action.payload,
       };
     case GET_INSULIN:
       return {
         ...state,
-        insulin,
+        insulin: action.payload,
       };
     default:
       return state;
@@ -289,7 +289,7 @@ const initialState = {
   showFoodForm: false,
   hasJustEnteredMeal: false,
   meals: [],
-  insulins: [],
+  insulin: [],
   insulinItem: {
     insulin: "",
     dosage: "",
@@ -510,15 +510,16 @@ export const AppProvider = ({ children }) => {
       });
   };
 
-  const deleteInsulin = async (insulin) => {
-    console.log(insulin);
+  const deleteInsulin = async (i) => {
+    console.log("insulin to be deleted is ");
+    console.log(i);
     let id = await getId();
     axios
-      .delete(`${host}/api/insulin/${id}`)
+      .delete(`${host}/api/insulin/${id}`,{ i })
       .then(() => {
         dispatch({
           type: DELETE_INSULIN,
-          payload: insulin,
+          payload: i,
         });
       })
       .catch((err) => {
@@ -533,7 +534,7 @@ export const AppProvider = ({ children }) => {
     axios.get(`${host}/api/insulin/${_id}`).then((res) => {
       dispatch({
         type: GET_INSULIN,
-        payload: { meals: res.data.data },
+        payload: res.data.data,
       });
     });
   };

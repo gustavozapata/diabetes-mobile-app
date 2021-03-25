@@ -18,8 +18,8 @@ const Stack = createStackNavigator();
 
 const InsulinScreen = () => {
   return (
-    <Stack.Navigator initialRouteName="Insulin">
-      <Stack.Screen name="Insulin" component={InsulinMainComponent} />
+    <Stack.Navigator initialRouteName="Insulin Menu">
+      <Stack.Screen name="Insulin Menu" component={InsulinMainComponent} />
       <Stack.Screen name="InsulinEnter" component={InsulinEnterComponent} />
       <Stack.Screen name="InsulinDelete" component={InsulinDeleteComponent} />
     </Stack.Navigator>
@@ -27,8 +27,8 @@ const InsulinScreen = () => {
 };
 
 
-const InsulinMainComponent = ({ navigation,route }) => {
-  const { state:{insulin},getInsulin,enterInsulin,deleteInsulin } = useContext(AppContext);
+const InsulinMainComponent = ({ navigation }) => {
+  const { state:{insulin},getInsulin,enterInsulin } = useContext(AppContext);
   //getInsulin();
   useEffect(()=>{
     const unsubscribe = navigation.addListener("focus", () => {
@@ -44,16 +44,14 @@ const InsulinMainComponent = ({ navigation,route }) => {
     }*/
     return unsubscribe;
   },[navigation]);
-
-  console.log(insulin);
-  /*var insulinItems = insulin.map((i) => 
+  var insulinItems = insulin.map((i) => 
   <View style={styles.insulinItem}>
-    <Text>{i.Datetime} - {i.type} - {i.amount}</Text>
-    <TouchableOpacity onPress={() => { navigation.navigate("InsulinDelete", { i: i }); }}>
+    <Text>{i.date} - {i.insulin} - {i.dosage}</Text>
+    {/*<TouchableOpacity onPress={() => { navigation.navigate("InsulinDelete", { id: i._id }); }}>
       <Image source={require("../../assets/trash.png")} style={styles.smallImage}/>
-    </TouchableOpacity>
-  </View>);*/
-  var insulinItems = [];
+</TouchableOpacity>*/}
+  </View>);
+  //var insulinItems = [];
 
   return (
     <View style={styles.wrapper}>
