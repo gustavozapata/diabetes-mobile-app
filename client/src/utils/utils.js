@@ -20,7 +20,7 @@ const addNutrients = (date, mealRecorded, nutrient) => {
   }
   return mealRecorded.meal.nutrients[nutrient]
     ? mealRecorded.meal.nutrients[nutrient].split(" ")[0]
-    : "-";
+    : "0";
 };
 
 exports.convertDateToCalendarDate = (entries) => {

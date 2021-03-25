@@ -4,7 +4,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import HomeScreen from "./src/screens/HomeScreen";
 import EnterMealScreen from "./src/screens/EnterMealScreen";
 import InsulinScreen from "./src/screens/InsulinScreen";
-import InsulinScreenTavo from "./src/screens/InsulinScreenTavo";
 import StartScreen from "./src/screens/StartScreen";
 import AppContext from "./src/context/AppContext";
 

@@ -100,12 +100,6 @@ const MainScreen = ({ navigation }) => {
             calendarDates.insulinInfo[currentDate] && (
               <InsulinCalendarSelected currentDate={currentDate} />
             )}
-
-          {/* {currentDate !== "" && (
-            <Text style={{ textAlign: "center", marginTop: 50 }}>
-              No data recorded
-            </Text>
-          )} */}
         </View>
         <ProfileFragment logoff={logoff} />
       </ScrollView>

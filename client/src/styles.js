@@ -72,9 +72,14 @@ const styles = StyleSheet.create({
     marginLeft: 6,
     fontSize: 17,
   },
-  insulinItem:{
-    display:"flex",
-    flexDirection:"row"
+  insulinItem: {
+    display: "flex",
+    flexDirection: "row",
+    marginVertical: 12,
+    paddingBottom: 8,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#aaa",
+    textAlign: "center",
   },
   //label for food input
   foodInput: {
@@ -102,9 +107,9 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 38,
   },
-  smallImage:{
-    width:20,
-    height:20
+  smallImage: {
+    width: 20,
+    height: 20,
   },
   switchForm: {
     paddingVertical: 10,
