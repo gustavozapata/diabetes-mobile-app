@@ -30,13 +30,12 @@ Scan the QR code with your phone and make sure expo app is installed
 - Async Storage - Persistent storage
 
 #### Installation
-
+Create a file named 'local.js' with a single line `export const host = "http://<IP_ADDRESS>:4000`  
+Make sure you add the IP address of your computer.  
+Then:
 - cd client
 - npm install
 - npm start
-
-To make requests from client to server: create a file named 'local.js' with a single line `export const host = "http://<IP_ADDRESS>:4000`  
-Make sure you add the IP address of your computer
 
 
 ### Server app
@@ -49,13 +48,12 @@ Make sure you add the IP address of your computer
 - Dotenv - Accessing environment variables
 
 #### Installation
-
+DB_URI is an environment variable used by the server.js file. DB_URI needs to be replaced by your MongoDB database URI.  
+Make sure you create a file .env and add the URI in here: DB_URI=your-db-uri  
+Then:
 - cd server
 - npm install
 - npm start
-
-DB_URI is an environment variable used by the server.js file. DB_URI needs to be replaced by your MongoDB database URI.  
-Make sure you create a file .env and add the URI in here: DB_URI=your-db-uri
 
 ### APIs
 
