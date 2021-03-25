@@ -33,18 +33,13 @@ exports.addInsulin = async (req, res, next) => {
 };
 
 exports.deleteInsulin = async (req,res,next) =>{
+  
   try{
-    const deleteInsulin = await User.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        $pull: { insulin: req.body.insulin },
-      },
-      { new: true }
-    ).select("insulin");
-
+    const deleteInsulin = await User.updateOne({_id: req.params._id});
+    console.log(deleteInsulin);
     res.status(200).json({
       status: "insulin deleted",
-      data: deleteInsulin
+      data:deleteInsulin
     });
   } catch (err) {
     console.log("Diabetes App Error: ", err);
