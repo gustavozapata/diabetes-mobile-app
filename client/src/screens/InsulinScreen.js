@@ -28,13 +28,13 @@ const InsulinScreen = () => {
 
 
 const InsulinMainComponent = ({ navigation }) => {
-  const { state:{insulin},getInsulin,enterInsulin } = useContext(AppContext);
+  const { state:{insulin},getInsulin,enterInsulin,deleteInsulin } = useContext(AppContext);
   //getInsulin();
   useEffect(()=>{
     const unsubscribe = navigation.addListener("focus", () => {
       //console.log("now focussed");
       getInsulin();
-    });
+    },[]);
     
     /*
     if(route.params?.delete == true){
@@ -47,9 +47,12 @@ const InsulinMainComponent = ({ navigation }) => {
   var insulinItems = insulin.map((i) => 
   <View style={styles.insulinItem}>
     <Text>{i.date} - {i.insulin} - {i.dosage}</Text>
-    {/*<TouchableOpacity onPress={() => { navigation.navigate("InsulinDelete", { id: i._id }); }}>
+    {/*<TouchableOpacity onPress={() => { 
+      //navigation.navigate("InsulinDelete", { id: i._id });
+      //deleteInsulin(i);  
+    }}>
       <Image source={require("../../assets/trash.png")} style={styles.smallImage}/>
-</TouchableOpacity>*/}
+  </TouchableOpacity>*/}
   </View>);
   //var insulinItems = [];
 

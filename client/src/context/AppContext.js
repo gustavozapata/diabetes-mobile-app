@@ -230,8 +230,7 @@ const diaryReducer = (state, action) => {
       };
     case DELETE_INSULIN:
       return {
-        ...state,
-        insulin: action.payload,
+        ...state
       };
     case GET_INSULIN:
       return {
@@ -470,7 +469,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const enterMeal = async (meal) => {
-    // console.log(meal);
+    console.log(meal);
     let _id = await getId();
     axios
       .post(`${host}/api/meals/${_id}`, { meal })
@@ -515,11 +514,10 @@ export const AppProvider = ({ children }) => {
     console.log(i);
     let id = await getId();
     axios
-      .delete(`${host}/api/insulin/${id}`, { i })
+      .delete(`${host}/api/insulin/${id}`,{ data:{source:i} })
       .then(() => {
         dispatch({
-          type: DELETE_INSULIN,
-          payload: i,
+          type: DELETE_INSULIN
         });
       })
       .catch((err) => {
