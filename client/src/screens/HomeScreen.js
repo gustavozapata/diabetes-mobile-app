@@ -17,6 +17,7 @@ import AppContext from "../context/AppContext";
 import ViewHeader from "../components/ViewHeader";
 import ProfileFragment from "./ProfileFragment";
 import CalendarItemSelected from "../components/CalendarItemSelected";
+import InsulinCalendarSelected from "../components/InsulinCalendarSelected";
 
 const Stack = createStackNavigator();
 
@@ -93,6 +94,17 @@ const MainScreen = ({ navigation }) => {
 
           {calendarDates.mealInfo && calendarDates.mealInfo[currentDate] ? (
             <CalendarItemSelected currentDate={currentDate} />
+          ) : (
+            currentDate !== "" && (
+              <Text style={{ textAlign: "center", marginTop: 50 }}>
+                No data recorded
+              </Text>
+            )
+          )}
+
+          {calendarDates.insulinInfo &&
+          calendarDates.insulinInfo[currentDate] ? (
+            <InsulinCalendarSelected currentDate={currentDate} />
           ) : (
             currentDate !== "" && (
               <Text style={{ textAlign: "center", marginTop: 50 }}>
