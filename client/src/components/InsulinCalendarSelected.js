@@ -8,20 +8,20 @@ const InsulinCalendarSelected = ({ currentDate }) => {
     state: { calendarDates },
   } = useContext(AppContext);
 
-  //   console.log(calendarDates.insulinInfo[currentDate]);
-
   return (
     <View style={innerStyles.container}>
       <View style={innerStyles.results}>
         <Text style={{ margin: -2, color: "orange" }}>Insulin</Text>
         {calendarDates.insulinInfo[currentDate] &&
-          calendarDates.insulinInfo[currentDate].insulin.map((insul) => (
-            <InfoBar
-              title={insul.insulin}
-              value={insul.dosage}
-              key={insul._id}
-            />
-          ))}
+          calendarDates.insulinInfo[currentDate].insulin.map((insul) => {
+            let val =
+              insul.dosage +
+              "mg/dL   at " +
+              new Date(insul.date).toISOString().match(/\d\d:\d\d/);
+            return (
+              <InfoBar title={insul.insulin} value={val} key={insul._id} />
+            );
+          })}
       </View>
     </View>
   );
