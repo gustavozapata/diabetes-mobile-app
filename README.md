@@ -4,6 +4,8 @@
 
 A mobile application for diabetic type 1 users to keep a record of the food and the inlusin they take.
 
+![Alt text](client/assets/app.gif)
+
 ### Tech Stack
 
 - JavaScript
